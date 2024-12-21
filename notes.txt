@@ -1,0 +1,38 @@
+AZ-104 Microsoft Azure Administrator Certification Prep
+https://learn.acloud.guru/course/160303d7-6947-4fbc-9d19-fa304849f92e/dashboard:
+
+
+
+## Azure Admin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Governance and Compliaance
+## Identity
+## Role-Based Access Control
+## Azure Storage
+## Virutal Networking 
+## Intersite Connectivity
+## Azure Virtual Machines
+## Network Traffic Management
+## Web Apps and Containers
+## Monitoring
+## Backup and recovery
