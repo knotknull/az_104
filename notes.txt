@@ -130,7 +130,7 @@ NOTE: Templates will be retired on March 31, 2025.
 
 
 ##################################################################
-## Governance and Compliaance
+## Governance and Compliance
 ##################################################################
 
 # Managing Subscriptions
@@ -233,8 +233,187 @@ storage accounts: 128 chars
  - Tags are NOT inherited
 
 
+LAB: 
+# list resource groups
+az group list
 
+# update resorce group tags
+az group update --resource-group "<RESOURCE_GROUP_NAME>" --tags "Environment=Production" "Dept=IT" "CreatedBy=<YourName>"
+
+
+# list VMs, remove and set tags
+az vm list --query '[].{name:name, resourceGroup:resourceGroup, tags:tags}' -o json
+az vm update -g "<RESOURCE_GROUP_NAME>" -n webvm1 --remove tags.defaultExperience
+az vm update -g "<RESOURCE_GROUP_NAME>" -n webvm1 --set tags.MarkForDeletion=Yes
+
+# list virtual networks, overwrite tags
+az network vnet list --query '[].{name:name, resourceGroup:resourceGroup, tags:tags}' -o json
+az resource tag --tags "Dept=IT" "Environment=Production" "CreatedBy=<YourName>" --resource-group "<RESOURCE_GROUP_NAME>" -n "vnet1" --resource-type "Microsoft.Network/virtualNetworks"
+
+
+# Locking / Moving Resources
+
+Locks
+ - override permissions to resources 
+    - subscriptions, resource groups, resources
+ - apply to all users and roles
+
+Types: 
+  ReadOnly Lock 
+    - no delete or update, can read if authorized
+  CanNotDelete
+    - no delete, can read or modify if authorized
+
+NOTE: Locks interited from parent scope 
+    i.e. from subscription down
+
+Moving Resources:
+  - from resource grp to resource grp
+  - from subcription to subscription
+  - in Resource Group Overview > Move
+NOTE: Moving resources between resouce groups is an "update" operation
+
+
+# Managing Azure Costs
+
+ - Subscription Type: 
+    - Enterprise Agreement
+    - Cloud Solution Provider
+    - Pay as you go
+
+ - Resource Type:
+    - storage account: Blob vs. Table
+ 
+ - Usage Meters:
+    - CPU, ingress/egress, disk size
+
+ - Resource Usage:
+    - Cost of using a resource
+
+ - Location
+    - services have varying costs across geographical regions 
+
+Best Practice:
+ - right size for the use case
+ - deallocate when not needed
+ - use cloud capabilities when possible:  scalability, elasticity
+ - plan costs
+
+Tools:
+ - pricing calculator  "Azure Pricing Calculator"
+ - TCO Calculator
+ - Cost Management Calculator
+
+
+# Building a Cloud Governance Strategy
+
+Governance: 
+    - Rules
+    - Policies
+    - Standards
+
+Control:
+    - enforce rules
+    - enforce policies and standards
+  
+- Define:  governance of organization
+- Plan:    which tools to implement governance 
+- Ready:   understand how tools will be used to implement governance
+- Adopt:   implement governance for organization using cloud strategy
+
+Governance:
+ - Management Groups 
+ - Subscriptions 
+ - Azure RBAC
+ - Policies
+ - Locks / Tagging
+
+
+                Policy 
+                   |
+Management Groups -> Subscription -> Resource Groups
+                                         |
+                                       RBAC
+
+
+Blueprints: Policies, Subscriptions, RBAC, Resouce Groups packaged together
+
+
+##################################################################
 ## Identity
+##################################################################
+
+Identity and Access Management Basics 
+
+Principal:  unauthenticated entity that will seek to authenticate as an Identity
+Identity :  Identity profile that is authenticated using credentials
+Authorizations :  actions that are premitted / prohibited for an identity to perform
+
+
+Azure Active Directory (Azure AD)
+    - Identity and Access Management  (IAM)
+        - global cloud-based identity service for Azure that provides an identity repo
+        - users / groups
+        - Manage Identity Security: MFA, resource access, policy-based controls
+
+
+Azure AD is global 
+    - Azure AD Tenant will be based in a region (i.e. US vs EU) 
+
+
+Tenant: is an instance of Azure AD
+    default domain name for tenant:  xyz.onmicrosoft.com
+    can be associated with multiple subscriptions
+
+
+Organization == Tenant == Directory
+
+Collaboration:
+    Azure AD B2B / B2C allows access across tenants
+
+Monitoring:
+    audit logs, security monitoirng, risk management
+
+Identity Integration:
+ - Hybrid / SSO using Azure AD Connect and Azure AD Domain Services
+
+Enterprise Access:
+ - Additiona security for apps and devices 
+    - on prem and in cloud
+
+
+Active  Dirctory                vs.             Azure AD
+- Organizationa Units (OUs)             - Administrative units
+- Group Policy Objects (GPOs)           - SAML, WS-Federation, OAuth
+- Kerberos, LDAP, NTLM                  - Flat directory structure
+- Hierarchical                          - cloud-based solution
+- On-Premises                           - Global
+
+
+AD Connect can interact between both
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Role-Based Access Control
 ## Azure Storage
 ## Virutal Networking 
