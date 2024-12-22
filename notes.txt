@@ -2,30 +2,238 @@ AZ-104 Microsoft Azure Administrator Certification Prep
 https://learn.acloud.guru/course/160303d7-6947-4fbc-9d19-fa304849f92e/dashboard:
 
 
+https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/?practice-assessment-type=certification
 
+Test: 
+- 40 to 60 questions in 120 minutes
+- 700 passing score / 70%
+
+# Additional Material: Azure Storage Deep Dive
+https://learn.acloud.guru/course/17ee4dc4-6f8e-4411-b0e9-26bdd4b8936c/dashboard
+
+
+
+
+##################################################################
 ## Azure Admin
+##################################################################
+
+# Resource manager 
+
+Resources: entity managed by Azure 
+    - VM, Storage Accoutns, Virtual Networks
+    - grouped into Resource Groups
+
+Resource Group:
+    - logical container for grouping resoruces
+    - group by lifecycle / security
+    - Associated with Subscription
+
+Azure Subscription:
+    - logical construct that groups resource groups and associated resources
+    - billing unit
+    - interacts with Azure Resource Manager
+
+Azure Resource Manager:
+    - orchestration layer ofr managing Azure Cloud
+    - uses REST API endpoints (Portal, CLI, PowerShell)
+    NOTE: ARM interacts with Azure Resource Providers
 
 
 
+    Portal          CLI        PowerShell
+      +--------------+--------------+   
+                     |
+    Azure Resource Manager (ARM)
+                     |
+        Azure Resource Provider
+                     |
+    +---------------------------------------+
+    | Subscription                          |
+    |                                       |
+    |     +-----------------------------+   |
+    |     | Resource Group              |   |
+    |     |                             |   |
+    |     |  +----------+  +----------+ |   |
+    |     |  | Resource |  | Resource | |   |
+    |     |  |   VM     |  |  Disk    | |   |
+    |     |  +----------+  +----------+ |   |
+    |     |                             |   |
+    |     +-----------------------------+   |
+    |                                       |
+    +---------------------------------------+
+
+Tips: 
+    - resources are Azure managed entities (VM, networks, storage, etc)
+    - resources are contained in resource groups
+    - resources groups contained within Subscription
+    - REST API endpoints to manage resources thru Azure Resource Manager 
+    - Azure Resource Manager  is a management service
+    - each resource has a resource provider 
+
+# Azure Portal and Cloud Shell
+Azure Portal:
+    - web based portal for Azure cloud
+    - create / manage resoruces
+    - uses cloud shell
+
+
+# Azure CLI and PowerShell
+- Command Line utility for managing Azure resources
+  - create and maange
+
+
+PS: Get-CloudDrive:
+
+FileShareName      : mapaccfileshr
+FileSharePath      : //mapaccstorage.file.core.windows.net/mapaccfileshr
+MountPoint         : /home/marc/clouddrive
+Name               : mapaccstorage
+ResourceGroupName  : LabResources
+StorageAccountName : mapaccstorage
+SubscriptionId     : cd002162-3eff-42ee-9220-................
+
+
+Bash:
+az group list
 
 
 
+# Using ARM Templates
+
+ARM Template (see ./scripts/azuredeploy.json)
+
+ARM Template: 
+  - Azure Resoruce Manager Templates
+  - Infrastructure as Code
+  - repeatable / quick deployment
 
 
+Components of an ARM Template: 
+{
+    "$schema": "https://schema.management.azure.com",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": {},
+    "outputs": {},
+}
+
+parameters / variables: used to pass info to template
+resources:  defines resources to create via template
+outputs  :  return output from execution of template ( i.e. IP Address)
+
+located in Home > Template specs
+
+NOTE: Templates will be retired on March 31, 2025. 
+      To store and share ARM templates, use the new template specs. Learn more about ARM template specs 
 
 
-
-
-
-
-
-
-
-
-
-
-
+##################################################################
 ## Governance and Compliaance
+##################################################################
+
+# Managing Subscriptions
+Subscription 
+ - billing unit of resources 
+ - contain resource grups and associated resource groups
+ - scope level for governance and security
+     i.e. deploy form templates
+ - can be associated with azure AD tenent
+
+Types of Subscriptions
+ - Pay-as-you-go
+ - Pay-As-You-Go
+ - Azure for Students
+ - Professional Direct Support
+ - Standard Support
+ - Developer Support
+ - Vistual Studio Professional Subscription
+ - Vistual Studio Enterprise Subscription
+etc
+
+
+Subscription Naming Conventions
+ - Prod / Dev / Staging
+ - Dept / Team  (i.e. marketing / engineering)
+ - Region (US / LATAM / EMEA)
+
+
+# Using Management Groups
+
+- organize / manage subscriptions by logically grouping them into management groups 
+- orginizational hierarchy
+- scope for enforcing governance / compliance 
+- RBAC
+
+            [Management Group: Root]
+                  |
+     +------------+------------+
+  [sub a]       [sub b]     [mgmt grp: X]
+
+
+Parent - Child relationships:   **
+ - Root management group is top-level
+ - mgmt grp and subs have single parent
+ - 6 levels of hierarchy    **
+
+Compliance Suppport
+ - Azure Policies
+ - Azure role-based access control (RBAC)
+
+NOTE: RBAC roles flow down hierarchy
+
+Root Management group cannot be moved or deleted
+RBAC supported for management groups
+
+NOTE: Global admins must be elevated to User Access Admin of root group
+
+# Azure Policy
+Policy 
+  - enforce compliance / enable auditing
+  - prohibit resources 
+     - restrict acciss
+  - allowed locations
+     - geo compliance
+
+2 components of Azure Policy:
+    - Policy Definition
+        - defines evaluation criteria for compliance
+        - defines actions that take place
+            - audit / denay outside of compliance
+
+    - Policy Assignment
+        - scope at where policy will be assigned: management group, subscription, resource group, resource 
+
+
+When resources are out of scope with policy: 
+    - creation can be denied 
+    - or audited
+
+
+Initiative Definition:    **
+  - collection of policies that are tailored to achieving a 
+    singular high-level goal (i.e. VM standards: location, sizing, etc.) 
+
+ex. policy definition: 
+    - VM must be created with project tag, if missing creation fails
+    - assign policy at the scope of resource i.e. resource group
+
+# Tagging resources
+
+tag: name / value pair
+ i.e.   dept:Marketing
+        env:Prod
+
+name : 512 chars   **
+value: 256 chars
+storage accounts: 128 chars
+50 tags to a resource ** 
+
+ - Tags are NOT inherited
+
+
+
 ## Identity
 ## Role-Based Access Control
 ## Azure Storage
@@ -36,3 +244,6 @@ https://learn.acloud.guru/course/160303d7-6947-4fbc-9d19-fa304849f92e/dashboard:
 ## Web Apps and Containers
 ## Monitoring
 ## Backup and recovery
+
+
+.
