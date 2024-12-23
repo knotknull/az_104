@@ -1,0 +1,6 @@
+﻿version:v1.0,,,,,,,,,,,,,,,,
+Name [displayName] Required,User name [userPrincipalName] Required,Initial password [passwordProfile] Required,Block sign in (Yes/No) [accountEnabled] Required,First name [givenName],Last name [surname],Job title [jobTitle],Department [department],Usage location [usageLocation],Street address [streetAddress],State or province [state],Country or region [country],Office [physicalDeliveryOfficeName],City [city],ZIP or postal code [postalCode],Office phone [telephoneNumber],Mobile phone [mobile]
+Chris Green,chris@marcpulidohotmail.onmicrosoft.com,myPassword1234,No,,,,,,,,,,,,,
+Mike Green,mgreen@marcpulidohotmail.onmicrosoft.com,myPassword1234,No,,,,,,,,,,,,,
+Gavin Samwell,gsamwell@marcpulidohotmail.onmicrosoft.com,MyPassword1234!,No,,,,,,,,,,,,,
+Evan Gates,egates@marcpulidohotmail.onmicrosoft.com,mYpassword1234!,No,,,,,,,,,,,,,

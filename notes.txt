@@ -413,10 +413,34 @@ Azure Active Directory: Global
 # Creating / Managing Users
 
 
+NOTE:  Microsoft Entra ID is new name for Azure AD,  AAD -->> ME-ID
+
+ - Members have default perms
+ - identities are JSON objects
+ - each user can have role assignments
+ - each user can have object ownership
+
+Types of Users:
+    - Admins: administrator role assigned
+    - regular users: native to Azure AD (Entra Id)
+    - guests: external uers invited to tenant
+
+Methods to create users:
+    Portal: Default Directory>  Users  > Create User
+    AZ cli:  az ad user create
+    PowerShell:  New-AzureADUser
+
+    Portal: Default Directory>  Users  > Bulk Operations:
+        - Bulk create
+        - Bulk invite
+        - Bulk delete
 
 
+Entra ID (ME-ID) -> User -> Role Assignment
+                     +----> Object Ownership
 
 
+# Creating / Managing Groups
 
 
 
