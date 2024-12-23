@@ -463,11 +463,110 @@ Membership Type:
   - dynamic device
 
 
+# Create Administrative Units
+
+ME-ID resoruce that provides logical container for objects
+  i.e. US vs Canada users in a global admin / corp
+
+i.e. Help Desk-US can only help HR-US
+    - creates a Hierarchical structure wihout Organizational Units in on prem Active Directory
+
+Admin Unit: logically divide organization to allow for scoping
+    for AD Roles in an AD tenant
+
+NOTE: can't nest Admin Units
+
+AD Tenants are a flat data structure 
+  - Admin Units allow to control scope of admin users
+
+  NOTE: Admin Roles scope at tenant level unless Admin Units
+        used to scope the Admin Role
+    i.e. depts, geo locations, parent orgs, etc.
+
+
+# Configuring Self Service Password Reset (SSPR)
+ - allows users to change / reset password
+
+Process: 
+  Localization >> Verification >> Authentication >> Password Reset >> Notification
+
+Authentication Methods:
+    - Mobile App     : MS Authenticator
+    - Mobile App Code: Time based code
+    - Email
+    - Mobile Phone 
+    - Office Phone
+    - Security Questions
+
+- Enable / manage SSPR via AD groups
+- One or more auth methods required for SSPR
+- Admins must register via MFA (no security questions)
+- Licensing: P1, P2, 365, Apps for Business
+
+# Device Management
+
+Device Registration: 
+  - Azure AD Registered 
+    - Least restrictive
+    - BYOD: Win 10, iOS, iPadOS, Android, macOS
+
+  - Azure AD Joined 
+    - Device owned by organization
+    - accesses via work account
+    - exist only in cloud
+    - supports win 10 and Server 2019
+
+  - Hybrid Azure AD Joined 
+    - Similar to Azure AD joined
+    - device identies exist bot on prem and in-cloud
+    - supports: win 7, 8.1, 10 and >=Server 2008
+
+Device (i.e. laptop, pc) can connect via Cloud AD or as a Work AD
+ - SSO into portal.azure.com
+
+
+Azure AD
+ - Tenants are instance of Azure AD service
+ - Difference between Active Directory and Azure AD (ME-ID)
+ - Users: Admin, users, guests
+ - Admin Units: MFA, SSPR 
 
 
 
-
+##################################################################
 ## Role-Based Access Control
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Azure Storage
 ## Virutal Networking 
 ## Intersite Connectivity
