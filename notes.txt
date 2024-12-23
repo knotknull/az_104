@@ -805,6 +805,51 @@ Container Access Level:
 
 NOTE: Blob containers by default do not allow anaonymous access to content
 
+# Blob Object Replication
+  Object Replication  
+    - asynchronously copies block blobs between storage accounts
+    - requires source / destination accounts
+    - requires versioning and change feed
+    - Can copy between storage accouts in : 
+        - same region 
+        - across regions
+        - across subscriptions
+        - across Azure Tenants
+
+Versioning and Blob Change Feed
+  - replication policy allows to perform asynchronous copy operations
+     from src storage account to destination account via $blobchangefeed
+
+Benefits:
+  - minimize latency
+  - increase efficeincy
+  - data distribution
+  - cost optimization: repliate data to archive tier
+
+
+1. Storage > create storage account > data protection:
+  - Enable versioning for blobs
+  - Enable blob change feed
+
+
+NOTE: destination only needs blob versioning enabled, change feed is only for source account
+
+2. Create container in each storage account 
+    - sourcecontaier / destcontainer
+
+3. Setup Object Replication (from source or dest storage account) 
+Storage Account > source storage account > Object Replication > Create Replication Rule
+
+
+NOTE:  $logs and $blobchangefeed are system containers needed for system functionality
+       Storage account can be a source for up to two destination accounts.
+
+# Blob Lifecycle Management
+
+
+
+
+
 ## Virutal Networking 
 ## Intersite Connectivity
 ## Azure Virtual Machines
