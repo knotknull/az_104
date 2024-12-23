@@ -537,7 +537,7 @@ Azure AD
 ## Role-Based Access Control
 ##################################################################
 
-Role Based Access Control (RBAC)
+# Role Based Access Control (RBAC)
 
 Who can do What Where
 
@@ -589,7 +589,7 @@ Azure AD RoOles;
  - Manage access to Azure resources                 - Manage access to Azure AD Resources
      - VMs, resource groups, etc                        - users, groups, apps, devices 
  - Scope: multiple levels                           - Scope at tenant level
-     - management groups, subs, resource grps           - admin unit
+     - mgmnt groups, subs, res grps, resources      - admin unit
  - Create Custom Roles                              - Support for custom roles
  - Main Roles:                                      - Mail Roles: 
     - Owner                                             - Global Admin
@@ -607,7 +607,7 @@ Azure AD RoOles;
                 | ------------------------- Root Space (Global Admin / User Access Admin) DON'T LOCK YOURSELF OUT OF ACCOUNT
                 |
                 |
-                |   Azure Roles   (RBAC)
+                |   Azure Roles == (RBAC)
    +----------------------------------------------------------------------+
    |                                                                      |
    |     [Management Group]                                               |
@@ -623,10 +623,100 @@ Azure AD RoOles;
    +----------------------------------------------------------------------+
 
 
+# Assigning Access to Resources
+
+RBAC: Authorization System 
+    Who  : Principal (User / Group)
+    What : Role Definition
+    Where: Scope (Subscription, resource grp)
+
+NOTE: DEFAULT IS IMPLICIT DENY
+
+Role Assignment is an EXPLICIT ALLOW
+    EXPLICIT DENY overrides EXPLICIT ALLOW
+
+Role Definition
+ Contributor 
+   "Actions": [                     <<---- What actions are allowed on management plane
+        "*"
+   ],
+   "NotActions": [                  <<---- Actions we are going to Deny
+    "Auth/*/Delete",
+   ],
+   "DataAction": [],                <<---- Data Actions i.e. Storage Accounts
+   "NotDataAction": [],             <<---- Actions we are going to Deny
+   "AssignableScopes": [            <<---- Define scope for this Role:  resource, resource grp, subscription, management group
+     "/"
+   ]
+
+
+Collective Permissions = Actions - Not Actions
+
+Roles have an "additive" affect: 
+ i.e.  have Contributor role at a highre level (Management Group) and a Reader role at a lower level (Subscription) 
+       the effective permissions would be at  Contributor + Reader == Contributor
+
+
+LAB: 
+az role definition list > roleinfo.json
+az role assignment list --all >> roleinfo.json 
+
+
+# Creating Custom Roles
+
+- create custom role definition
+- use built-in role plus additional functionality
+
+NOTE: Must have User Access Admin or Owner role for the account
+
+Built-in role
+Virtual Machine Contributor:
+
+   "Actions": [                     
+        "Compute/virtualMachines/*"
+   ],
+   "NotActions": [],
+   "DataAction": [],                
+   "NotDataAction": [],             
+   "AssignableScopes": [            
+     "/"
+   ]
+
+Custom VM Role:
+
+   "Actions": [                     
+        "Compute/*/read",                           <<-- Only allowing read and restart on VMs
+        "Compute/virtualMachines/restart/action"
+   ],
+   "NotActions": [],
+   "DataAction": [],                
+   "NotDataAction": [],             
+   "AssignableScopes": [            
+     "/"
+   ]
+
+Resource Group > Access Control / IAM > Roles    (see scripts HelpDeskAdminRole.json)
+az role definition create --role-definition hdesk_admin.json 
 
 
 
+##################################################################
 ## Azure Storage
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Virutal Networking 
 ## Intersite Connectivity
 ## Azure Virtual Machines
