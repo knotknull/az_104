@@ -704,18 +704,106 @@ az role definition create --role-definition hdesk_admin.json
 ## Azure Storage
 ##################################################################
 
+# Storage Accounts
+ - top level resources for storage services
+
+                    [Storage Account]
+                           |
+        +------------+---------------+---------------+
+        |            |               |               |
+[Azure Queue]  [Azure Files]    [Azure Table]     [Azure Blob]
+
+
+Azure Queue : message-based storaage for microservices
+Azure Tables: non-relational, sem-structured data storage service
+Azure File  : Cloud-based file-sharing service
+Azure Blob  : Object-oriented storage solution
+
+Components:
+ - Account Type
+ - Performance Tier
+ - Replication (reduncancy)
+ - Access Tier (cost to retrieve)
 
 
 
+Storage Reduncancy
+
+Regions: 2ms latency zone
+    - Availability Zone within Regions (independent power cooling and network, 1 or more Data Centers)
+
+  - Locally Redundant Storage (LRS):  3 copies of data in one AZ
+  - Zone    Redundant Storage (LRS):  1 copy of data in each AZ of a region
+  - Geo     Redundant Storage (GRS):  3 copies of data in a single AZ, in two different regions
+  - GeoZonal Redundant Storage (GZRS):  1 copy of data in each AZ of home region, and 3 copies in an AZ of another region
+  - Read Access GeoZonal Redundant (RA-GZRS):  Same as GZRS but second region is Read Access
 
 
+Storage Account Name has to be unique globally (24 chars max)
+
+Account Type: 
+ - General Purpose v1:  Legacy for blobs, queues and tables
+ - General Purpose v2:  Recommended for blobs, files, queues and tables
 
 
+Performance Tier: 
+ - Blob storage:  Legacy blob-specific accounts
+ - Standard    :  default storage performance tier
+ - Premium     :  high-performance storage tier  
 
 
+Premium Account Types:
+ - Block Blobs: high transaction rates / low storage latency
+ - File Shares: Enterprise / high-performance apps that need to scale
+ - Page Shares: Best for random read / write operations
 
 
+Access Tier: 
+ - Hot    : Frequently accessed data
+ - Cold   : Infrequently accessed data
+ - Archive: Backup data / rarely accessed
 
+
+# Azure Blob Storage 
+
+Blob Storage: Object based storage (sub-service of Azure Storage Acct)
+- accessible by HTTP / Rest
+    - images / video files
+    - text files
+    - log files
+    - virutal hard disk (VHD) files
+
+stored in "container == bucket"
+  - appears as file system but is flat file structure
+     i.e. file prefix instead of folder name:
+        dogs/kopi.jpb
+        notdogs/cat.jpg
+        cat.jpg
+
+Blob Container: 
+  - logical container to store blobs
+                        +----------------- Storage Account  -----------------+
+                        |     +-------------+      +-------------+           |
+                        |     | Container A |      | Container B |           |
+                        |     |  - blob-a1  |      | - blob-b1   |           |
+                        |     |  - blob-a2  |      | - blob-c2   |           |
+                        |     +-------------+      +-------------+           |
+                        +----------------------------------------------------+
+
+Types of Blobs:
+    - Block Blobs : images / videos.  Best for streaming
+    - Append Blobs: log files
+    - Page Blobs  : Virtual Machine Disks
+
+
+Container Access Level:
+    Default is at storage account level 
+    - Private (no anonymous access) 
+    - Blob (anonymous access to blob) 
+    - Container (anonymous access to container and blobs) 
+
+
+NOTE: Blob containers by default do not allow anaonymous access to content
 
 ## Virutal Networking 
 ## Intersite Connectivity
