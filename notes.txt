@@ -537,31 +537,90 @@ Azure AD
 ## Role-Based Access Control
 ##################################################################
 
+Role Based Access Control (RBAC)
+
+Who can do What Where
+
+
+Who  :  Security Principals (Users / Group)
+
+What :  Role Definition and Assignment  (what they can do and who it is assigned to)
+
+Where:  Scope of actions (Effective Permissions @: Management Group, subscription )
 
 
 
+Azure Roles: 
+    Role Definition: 
+      i.e. "Actions": [*],
+           "NotActions": [
+              "Auth/*/Delete",
+           ]
+
+    Assigned at subscription levl
 
 
+Azure Roles:
+  - for Azure Resources inside subscriptions
+
+Owner : full access to resources and delegates access
+
+Reader: Can only view resources
+
+Contributor: Create and manage resources
+              NOTE: Can't manage access for other users  
+
+User Access Admin: delegate access to resoruces
 
 
+Azure AD (ME-ID) Roles
+  - provide access to manage identity objects in Azure AD tenants 
+        - not subscriptions and resources
+  - manage identity resources inside tenants: 
+        - users / applications / devices 
+Azure AD RoOles; 
+  Global Admin  : manage Azure AD resources ENTIRELY (i.e. Root)
+  Billing Admin : perform billing tasks
+  User Admin    : can manage users and groups
+  Helpdesk Admin: help desk functions: password resets
 
+        Azure Roles                                     Azure AD Roles
+     ---------------------                         -------------------------
+ - Manage access to Azure resources                 - Manage access to Azure AD Resources
+     - VMs, resource groups, etc                        - users, groups, apps, devices 
+ - Scope: multiple levels                           - Scope at tenant level
+     - management groups, subs, resource grps           - admin unit
+ - Create Custom Roles                              - Support for custom roles
+ - Main Roles:                                      - Mail Roles: 
+    - Owner                                             - Global Admin
+    - Contributor                                       - User Admin 
+    - Reader                                            - Billing Admin 
+    - User Access Admin                                 - Help Desk Admin
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Azure AD (ME-ID) Roles
+   +-------------------------------+
+   | Global Admin / Billing Admin  |
+   | User Admin   / Hel Desk Admin |
+   +-------------------------------+
+                |
+                |
+                | ------------------------- Root Space (Global Admin / User Access Admin) DON'T LOCK YOURSELF OUT OF ACCOUNT
+                |
+                |
+                |   Azure Roles   (RBAC)
+   +----------------------------------------------------------------------+
+   |                                                                      |
+   |     [Management Group]                                               |
+   |            |                                                         |
+   |            +------- [Subscription]                                   |
+   |                           |                                          |
+   |                           +------- [Resource Group]                  |
+   |                                            |                         |
+   |                                            +----- [ VM ]             |
+   |                                            +----- [ Virutal Net]     |
+   |                                                                      |
+   |                                                                      |
+   +----------------------------------------------------------------------+
 
 
 
