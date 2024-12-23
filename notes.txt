@@ -442,6 +442,28 @@ Entra ID (ME-ID) -> User -> Role Assignment
 
 # Creating / Managing Groups
 
+ - manager role assignments / subscriptions, etc for similar users i.e. HR
+ - create a group and assign subscriptions / role assignments to the group 
+
+
+Type of Group : 
+  - security group
+        - used to manage access to shared resources for a group of users
+
+  - Microsoft 365 Group
+        - used to give members access to shared mailbox, calendar, files, etc
+
+Membership Type:
+  - assigned  
+  - dynamic users
+    - assign by property of a user 
+        if property changes they are no longer part of that group 
+          i.e. if dept=HR becomes dept=Billing 
+          or usertype = Guest
+  - dynamic device
+
+
+
 
 
 
