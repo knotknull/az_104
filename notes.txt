@@ -350,7 +350,7 @@ Identity :  Identity profile that is authenticated using credentials
 Authorizations :  actions that are premitted / prohibited for an identity to perform
 
 
-Azure Active Directory (Azure AD)
+# Azure Active Directory (Azure AD)
     - Identity and Access Management  (IAM)
         - global cloud-based identity service for Azure that provides an identity repo
         - users / groups
@@ -392,18 +392,25 @@ Active  Dirctory                vs.             Azure AD
 
 AD Connect can interact between both
 
+# Managing Tenants
+
+Designing Tenants:
+
+        [- Monitor/Automate -]          : Monitor admin, perform access reviews, automate user lifecycles
+      [----- Manage Apps  -----]        : Identify apps to be used and register on-prem 
+  [----- Populate ID Resources -----]   : Add users, create groups, add devices setup hybird identities
+[-----  Build Secure Foundations -----] : MFA, Backup global admin, Self Service Password Reset, privileged users
 
 
 
+Azure Active Directory: Global 
+ - specific instance of Az AD is a tenant
+    - in geographical region (US)
+    - users, groups, devices, etc
 
 
 
-
-
-
-
-
-
+# Creating / Managing Users
 
 
 
