@@ -996,6 +996,67 @@ Azure Defender for Storage:
     - detects harmful attempts to access / expoit Blob contaners and File Shares
 
 
+# Azure Jobs
+Import / Export Jobs to move data to cloud
+
+- Move large amount of data between on-prem and Azure Storage
+    - to / from Blob Service
+    - to File Service
+    - transport self-supllied drive
+- Supported Drive types:
+    - SATA
+    - HDD
+    - SSD
+
+Azure Import Job:
+ 1. Prepare disks (WAImportExport - windows only)
+ 2. Create job
+ 3. Ship drives
+ 4. Check job status
+ 5. Recieve disks
+ 6. check data in Azure Storage
+
+Azure Export Job:
+ 1. Create job
+ 2. Ship drives
+ 3. Check job status
+ 4. Recieve and unlock disks
+
+NOTE: Import / Export jobs are now Data Box
+
+Data Box - Disk:  35 TB 
+Data Box       :  80 TB 
+Data Box Heavy : 800 TB 
+
+# Storage Utilities
+ - Storage Explorer
+    - GUI for working with storage accounts (Windows, Linux, MacOS)
+    - manage storage accounts
+    - Azure Azure AD (ME-ID) or Shared Access Signature (SAS) 
+    - Uses AzCopy under the hood
+
+ - AzCopy
+    - cli utility for working with storage accounts (Windows, Linux, MacOS)
+    - Azure Azure AD (ME-ID) or Shared Access Signature (SAS) 
+    - scripting capabilities
+
+
+
+
+
+Resources:
+
+https://azure.microsoft.com/en-us/products/storage/storage-explorer/
+https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10?tabs=dnf
+  
+curl -sSL -O https://packages.microsoft.com/config/<distribution>/<version>/packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install azcopy
+
+
+
 
 
 
