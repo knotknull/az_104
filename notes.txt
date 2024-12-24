@@ -1038,9 +1038,7 @@ Data Box Heavy : 800 TB
  - AzCopy
     - cli utility for working with storage accounts (Windows, Linux, MacOS)
     - Azure Azure AD (ME-ID) or Shared Access Signature (SAS) 
-    - scripting capabilities
-
-
+    - scripting capabilities 
 
 
 
@@ -1057,10 +1055,53 @@ sudo apt-get install azcopy
 
 
 
+##################################################################
+## Virtual Netowrking
+##################################################################
+
+
+[ Virtual Network ]
+  [ Subnet ]
+     [ Security Group ]
+        [ VM ]
+        [ Public IP ]
+
+  [ Subnet ]
+     [ Security Group ]
+        [ VM ]
+        [ Public IP ]
+
+Virtual Network (VNet)
+    - isolated network on Azure cloud
+    - private network access 
+        - between resources: VMs, App Service
+    - network Integration   
+        - connectivity between VNets, on-prem and remote devices
+
+Components of Virtual Networks
+ - Address space
+   - private address space i.e. 10.0.0.0  
+
+ - VNet 
+   - isolated network where resources are deployed
+
+ - Subnets 
+   - segmentation of VNet into smaller sub-networks
+
+
+# Creating Virtual Networks
 
 
 
-## Virutal Networking 
+
+
+
+
+
+
+
+
+
 ## Intersite Connectivity
 ## Azure Virtual Machines
 ## Network Traffic Management
