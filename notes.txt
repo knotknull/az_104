@@ -846,6 +846,41 @@ NOTE:  $logs and $blobchangefeed are system containers needed for system functio
 
 # Blob Lifecycle Management
 
+Lifecycle Management: 
+ - move blobs thru storage tiers as they age
+     hot -> cold -> archive -> delete
+
+ - optimize storage costs
+
+
+ storage accounts > specific storage account > Data Management > Lifecycle Management
+ - Add a rule
+
+Supported Storage Accounts: 
+    - GPv2 storage accounts
+    - Blob storage accounts
+
+Types / Subtypes supported: 
+    - block blob 
+    - append blob 
+    - subtypes:
+        - base blobs
+        - snapshots 
+        - versions 
+
+Scope with filters
+
+
+# Configuring Azure Files
+
+
+
+
+
+
+
+
+
 
 
 
