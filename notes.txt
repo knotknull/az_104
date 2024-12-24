@@ -873,12 +873,56 @@ Scope with filters
 
 # Configuring Azure Files
 
+Azure Files
+ - sub-service of Storage Account
+ - managed file share service
+ - SMB / NFS connectivity
+     - windows, Linux, macOS
+ - Extended (to on-prem with) Azure File Sync
+
+Made up of two parts: 
+    - File Service
+    - File Share
+        - file structure that is being connected to (directories, files, etc.)
+
+Insecure Connectivity:
+  - REST
+  - SMB 2.1
+  - SMB 3.0
+
+Secure Connectivity:
+  - REST
+  - SMB 3.0
+NOTE: NFS NOT supported externally, only supported internally to Azure
+
+Security:
+  - Data encrypted at rest by default
+  - Data encrypted in transit over HTTPS or SMB
+
+File Share Quota:  5TB  **
 
 
+# Configuring Azure File Sync
+Azure File Sync:
+  - extension of Azure Files
+  - extend capabilities of on-premises file servers
 
+Feature: 
+  - Locally cache frequently accessed files on prem
+  - Infrequent files get file pointer back to Azure Files
+  - Requires Winddows 2012 R2 or later
+  - SMB, NFS, FTPS
+REQUIRED: File Sync Agent on windows machine
 
+Components of Azure File Sync:
+  - Storage Sync Service 
+    - high-level Azure resource 
 
+  - Cloud Endpoint
+    - Azure file share utilized in File SYnc
 
+  - Registerd Server 
+    - trusted on-prem file servers
 
 
 
