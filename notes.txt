@@ -1136,6 +1136,52 @@ Address Restrictions:
     - RESERVED:  first 4 and last :  x.x.x.0-3, x.x.x.255
 
 
+# Deploying Network Resources
+IP Addressing:
+ - private
+ - public
+    - Basic SKU 
+        - statically or dynamically assignable Public IP
+        - accessible by default
+        - requires Network Sec Grp to restrict traffic
+        - does not support availability zone deployments
+
+    - Standard SKU 
+        - statically assignable Public IP
+        - not accessible by default
+        - requires Network Sec Grp to allow traffic
+        - supports availability zone deployments
+
+ - IP CIDR 
+
+NIC IP Configurations:
+    - Private IP Address
+    - can also have Public IP Addr
+
+NOTE: on 20250930, Azure Basic Public IP will be retired
+
+
+# Routing Virtual Networks
+  Routes: Paths for connectivity
+        - vm to vm
+        - vm to internet, etc.
+
+System Routes
+ - default routes built-in to VNets, CANNOT BE MODIFIED
+
+Custom Routes
+ - user-defined routes or border gateway protocol (BGP) routes 
+   that override system routes
+
+BGP Route:
+ - routes that are exchanged between integrated networks
+
+
+Can create a route table and associate it with a subnet, this shows up in the NIC Effective Routes
+> Network Interface > Effective Routes
+
+Route Precedence
+  Custom  >  BGP >   System 
 
 
 ## Intersite Connectivity
