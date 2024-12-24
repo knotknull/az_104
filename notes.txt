@@ -1091,13 +1091,49 @@ Components of Virtual Networks
 
 # Creating Virtual Networks
 
+- Determine IP CIDR
+    - 10.0.0.0 / 16
 
+- Subnet Requirements
+    - compute vs db
 
+- Connectivity Needs
+    - Internet
+    - resource to resource
+    - resource to service
+Virtual Netowk Fatures: 
 
+ - Azure Reserved IP Addresses for a subnet 
+     x.x.x.0-3 and x.x.x.255   **
 
+ - Private Networking
+    - VNet supports DHCP for private IP addressing for resources
 
+ - Public Networking
+    - VNet supports public IP Addr (v4, v6)
 
+ - Peering 
+    - VNet supports peering between VNets 
+        - same region, across regions
 
+ - Network Gateway 
+    - VNet uses gateway subnets to make VPN connections 
+    - VPN Gateway
+
+ - Monitoring 
+    - view logs
+    - monitor connectivity
+    - view topology of VNet
+
+Default Connectivity:
+ - intra-network traffic and outbound internet traffic is allowed
+ - DNS, DHCP are built in for VNets
+ - Protocols: TCP, UDP, ICMP (ping)
+
+Address Restrictions:
+    - smallest VNet subnet size is /29
+    - largest  VNet subnet size is /8
+    - RESERVED:  first 4 and last :  x.x.x.0-3, x.x.x.255
 
 
 
