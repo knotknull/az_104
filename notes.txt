@@ -924,6 +924,76 @@ Components of Azure File Sync:
   - Registerd Server 
     - trusted on-prem file servers
 
+File Sync Cloud Tiering:
+ - On Prem caches frequently accessed files
+ - other files have a pointer mapping back to Azure File Share
+
+
+# Storage Network Access
+Storate Access Options: 
+ - public endpoint
+   - All services are public by DEFAULT using the service's public endpoint URL
+
+ - Restricted Access
+   - Storage account access can be restricted to virtual networks, 
+     IP address ranges via the storage account's firewall 
+     and via specific resource instances
+
+ - Private Endpoints
+   - Allow private IP access for resources in an associated virtual network
+
+Public Endpoints:
+ https://<accountName>.<subService>.core.windows.net/<resourceName>
+
+i.e.
+https://knotknulltrainingstorage.blob.core.windows.net/blobaccesscontainer/this_is_a_blob_file.txt
+
+Storage Account > Networking > [Firewalls and virtual networks]
+  Enabled from selected virtual networks and IP addresses 
+    - this enable you to configure firewall for storage account resources
+
+can also access private endpint connections tab and Custom domain name (CNAME)
+
+
+# Securing Storage Accounts
+
+Secure Storage:
+    - all data, by default, in any Azure Storage Service is 
+      secured using Storage Service Encryption (SSE)
+
+    - all datacan be secured using transport-level security (HTTPS)
+
+Azure Storage Authentication:
+    - Management Layer (management account)
+    - Data Layer (accessing internally / externally)
+
+    - Access Keys: 
+        - Azure generated keys (2) provicde unlimited access to both management and data layer
+
+    - Shared Access Signature (SAS) tokens: 
+        - access signature, generated from access keys 
+        - provides limited access at either the account or service level
+
+    - Azure AD Authentication
+        - Uses Azure RBAC and AZ Active Directory identities to 
+          provide authentication (instead of access keys)
+
+Storage Account > Settings > Configuration:
+     Secure Transfer required
+
+Storage Account > Security + Networking: 
+  Access Keys:  full access resource and data
+  Shared Access Signature:  fine-grained access to resource services and types
+
+
+Can create shared access token against specific container or object in container: 
+Storage Accounts > Storae Account > Container > specific Container > settnings > shared access token 
+
+
+Storage Accounts > Storae Account > Container > Access Policy
+
+Azure Defender for Storage: 
+    - detects harmful attempts to access / expoit Blob contaners and File Shares
 
 
 
