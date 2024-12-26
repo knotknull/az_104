@@ -1283,6 +1283,34 @@ Steps to Implement Azure Firewall:
 # Using Service Endpoints
 
 
+All Platforma as a Service connectivity (PaaS) for Microsoft services 
+has a public endpoint by default (think AWS S3)
+
+ - traffic goes to public internet to hit public endpoint 
+
+
+Service Endpoint: 
+ - can provide private connectivity to a service from inside pirvate virutal network 
+    ex. VM can access Azure File Share from storage account using service endpoint
+        NOTE:  Connection is over Microsoft backbone network
+
+ - enabled per subnet 
+ - NOT all services are supported
+ - supported services differ per region
+ - Does NOT GIVE services a private ip
+ - Provides source IP as private IP
+ - decrease attack surface
+    
+NOTE: gives mapping to Microsoft Storage and not a direct mapping to Azure Files or Blobs
+
+Service Endpoint Policy:
+ - can sepcify certain resources that can access the service endpoint 
+    i.e. all storage accounts vs. a resource group vs. a specific storage account
+ 
+ - Added security for service endpoints
+  
+
+# Using Private Endpoints
 
 ## Intersite Connectivity
 ## Azure Virtual Machines
