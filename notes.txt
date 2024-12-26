@@ -1184,6 +1184,45 @@ Route Precedence
   Custom  >  BGP >   System 
 
 
+# Network Security Groups 
+  - control flow of traffic inside of network
+  - allow / deny rules
+  - control security at subnet / NIC layer 
+  - specify priority:  
+        - lower number / higher priority   10 > 1000
+  - default rules cannot be deleted but can be overridden by higher priority rules (lower number)
+
+NSG is associated with Subnet or NIC
+
+Rule Precedence: Once a matching rule is hit, no further evaluation done 
+
+NOTE:  User defined rules use priority 100 - 4096
+
+
+    +-VNet--------------------------------------+
+    |                                           |
+    |   +---Subnet [NSG-1]------------------+   |
+    |   |                                   |   |
+    |   |  [Web-VM]                         |   |
+    |   |                                   |   |
+    |   |              [DB-VM]-[NSG-2]      |   |
+    |   |                                   |   |
+    |   +-----------------------------------+   |
+    |                                           |
+    +-------------------------------------------+
+
+NOTE: what could be allowed at NSG-2 could be blocked in NSG-1 and vice versa)
+
+Standard SKU Public IP is not accessible by default (i.e. no SSH)
+
+Network Security Groups are STATEFUL
+
+# Using DNS
+
+
+
+
+
 ## Intersite Connectivity
 ## Azure Virtual Machines
 ## Network Traffic Management
