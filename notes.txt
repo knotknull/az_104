@@ -1219,7 +1219,68 @@ Network Security Groups are STATEFUL
 
 # Using DNS
 
+Domain Name System
+ - supports:  A, AAAA, CNAME, TXT, MX, PRT, SRV, SOA
+ - private / public zones 
 
+record: 
+name,    type,  value 
+xyz.com, A,     111.222.33.45
+
+record sets: 
+name,    type,  value 
+xyz.com, A,     111.222.33.45
+xyz.com, A,     111.222.33.47
+
+
+Alias record:  points to a resource name
+
+Private DNS Zone:
+ - similar to public DNS but resides only within Azure. 
+ - can link Private DNS Zone to to virtual network:
+    Private DNS zone > Virtual Network Links 
+
+Features:
+ - RBAC
+ - Activity Logs
+ - Resource Locking
+ - Private DNS zone
+ - Alias records
+
+
+# Azure Firewall
+
+ - Platform as a Service firewall
+ - Fully qualified domain name (FQDN) support
+ - Azure Firewall Subnet needs to be created for Firewall appliance to be deployed
+     /26 CIDR (or lower)
+
+ - Handles:
+    - NAT Rules
+    - Netowrk Rules
+    - Application Rules
+
+Features:
+  - DNAT / SNAT 
+    - configure outbound / inbound NAT Rules
+  - Network Rules
+    - Layer 4 traffic
+  - App rules
+    - filter websites
+  - Threat Intel 
+    - Identify malicious IPs / domains
+  - Monitoring
+    - Integrates with Azure Monitor to capture firewall traffic
+
+
+Steps to Implement Azure Firewall:
+
+1. Create VNet
+2. Create Azure Firewall Subnet (/26 or lower)
+3. Create Azure Firewall and deploy to Frewall Subnet
+4. Create Route via Route table to route traffic flow from Default to Azure Firewall
+
+# Using Service Endpoints
 
 
 
