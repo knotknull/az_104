@@ -1311,6 +1311,28 @@ Service Endpoint Policy:
   
 
 # Using Private Endpoints
+Private Link: 
+  - connect your services as connected resources in your network with a private IP 
+    known as a Private Endpoint    
+  - connectivity to:
+        -  Azure Services
+        -  Customer / partner Services
+
+Direct service (sub-resource) mapping
+  i.e. direct connection to Azure Files or Blob and not just connectivity to Storage Account
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Intersite Connectivity
 ## Azure Virtual Machines
