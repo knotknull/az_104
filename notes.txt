@@ -1363,32 +1363,86 @@ Types of Peerings:
 
 # Implementing VPNs
 
+VPN Gateway
+ - establishes connectivity between VNets, similar to VNet peering 
+
+Components:
+ - VNet gateway for VPN gateway
+ - Gateway subnet
+ - Public IP per VNet gateway
+ - IPsec tunnel for encryption
+
+Capabilities of Azure VPN Gateway:
+ - point to site
+ - site to site
+ - allows transitive traffic
+
+
+Routing Types:
+
+Policy-based:
+  - static routng via policy declarations
+  - Legacy on-prem VPN devices
+  - supports only IKEv1 encryption
+  - only basic sku
+
+
+Route-based:
+  - static and dynamic routng 
+  - resilient to topology changes
+  - can coexist with ExpressRoute
+  - supports IKEv2
+
+    SKU         Site-to-Site Tunnels            Throughput          BGP Support
+   Basic            Max:10                        100 Mbps            Not Supported    
+   VpnGw1AZ         Max:30                        650 Mbps              Supported    
+   VpnGw2AZ         Max:30                         1   Gbps             Supported    
+   VpnGw3AZ         Max:30                        1.25 Gbps             Supported    
+
+NOTE: basic should only be used for dev/test, doesn't support migrating between skus
+
+Active / Active vs Active / Passive
+
+Active/Passive: 
+  1 VPN Gateway connects to on-prem site with a backup on-prem site configured
+    includes a passive VPN Gateway connect with the same connections
+
+
+Active/Active:
+provides functionality to both VPN Gateways to be serveing traffic 
 
 
 
+Gateway Subnet (called GatewaySubnet) needs to be created, CIDR is /27:
+10.0.0.0/27
+
+
+console > virtual network gateway
+Virtual Network Gateways created in each Virtual Network
+
+console > local network gateway
+use IP Address of Virtual Network Gateway created for that Virtual network
+
+
+then create connection between local network gateway and VNG
+     - console > vitual network gateway > connections > add 
+            connection type IPSec (simulate site to site (onrprem to azure))
 
 
 
+[------------------------------- Azure -------------------------------] [ On Prem ] [--------- Azure --------- ]            
+[ Create VNets]  [ Specify the ] [ Create ] [Create ] [ Create ]        [Configure]    [ Create VPN ]
+[ and subnets ]  [ DNS Server  ] [ Gateway] [ VPN   ] [ Local  ]        [VPN Device]   [ Connection ]
+                                 [ Subnet ] [Gateway] [ Gateway]        
+
+- VNet to VNet
+- Site  to Site
+- Point to Site
+- IPsec tunnel for encryption
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Configuring ExpressRoute
 
 
 
