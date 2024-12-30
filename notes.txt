@@ -1323,18 +1323,76 @@ Direct service (sub-resource) mapping
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+##################################################################
 ## Intersite Connectivity
+##################################################################
+
+# Configuring Azure VNet Peering
+
+Default Connectivity:  
+ - intra-network traffice and outbound internet traffic is allowed 
+   HOWEVER, Virtual Networks are isolated by default
+
+
+
+VNet Peering
+ - Non-Reciprocal: connection must be established in both directions
+ - Global Connectivity: peerings can be same region or cross-region (global)
+ - Non Transitive 
+
+    [Node A] <---> [Node B] <---> [Node C]
+
+NOTE: Node A cannot connect to Node C via Node B
+
+VNet Peering Benefits:
+ - low -latency, high-bandwidth connections
+ - cross-network communications
+ - Data transfer between / across
+    - subscriptions
+    - AAD tenants via Azure roles
+    - Azure regions
+
+console > virtual network > peerings
+
+NOTE: can setup peering connections for both sides via the Peering form.
+
+
+Types of Peerings:
+ - virtual network peering
+ - global virtual network peering
+
+# Implementing VPNs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Azure Virtual Machines
 ## Network Traffic Management
 ## Web Apps and Containers
