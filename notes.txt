@@ -1441,8 +1441,59 @@ then create connection between local network gateway and VNG
 - IPsec tunnel for encryption
 
 
-
 # Configuring ExpressRoute
+
+ExpressRoute:
+ - Service to make direct connection to Azure and Microsoft Resources 
+ - Physical dedicated connection
+    - not encrypted by default
+ - Connect Microsoft Edge to a Partner Edge
+    - consists of primary and secondary circuit
+    - 2 phsyical dedicated connections (redundancy)
+        - no IPSec Tunnel
+    - Dynamic routing via BGP
+    - 50 Mbps - 10 Gbps
+
+
+- Microsoft Peering 
+    - allows connection to Microsfoft Resources:  Office365, etc
+
+- Azure Private Peering 
+    - allows connection to Azure resources: 
+
+Requirements:
+ - virtual network gateway for private peering connection
+    - create connection on ExpressRoute to virtual network gateway
+    - VNet Gway needs virtual subnet
+ - On prem needs: 
+    - ASN #: Autonomous System Number 
+    - VLAN ID : VLAN using to peer network
+    - 2 Subnets (/30 == 4 IP addr) 
+        - 2 in use for connection
+        - 1 for express route
+        - 1 for BGP session to exchange routes
+    - shared key
+    - Public IP addr for Microsoft peering
+
+
+
+Implementation steps:
+1. Create ExpressRoute Circuit
+2. Give Service Key to Provider
+3. Create Peering Configuration
+4. Create Virtual Network Gateway
+    - gateway type must be ExpressRoute 
+    - must be deployed into a gateway subnet
+
+
+SKU:
+- Local   : access to 1-2 Azure regions in same metro as your circuit
+- Standard: access to all Azure regions in same geopolicial region as circuit
+- Premium : access to worldwide services
+
+
+
+
 
 
 
