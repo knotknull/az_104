@@ -1476,7 +1476,6 @@ Requirements:
     - Public IP addr for Microsoft peering
 
 
-
 Implementation steps:
 1. Create ExpressRoute Circuit
 2. Give Service Key to Provider
@@ -1492,10 +1491,50 @@ SKU:
 - Premium : access to worldwide services
 
 
+# Implementing Virtual WAN
+Virtual WAN: 
+  - create virtual wan hubs for hub and spoke networks
+    - point to site
+    - site to site
+    - ExpressRoute
+    - VNets
+  - Manage routes, firewalls, topology thru one interface
+  - One Hub per Region, can connect each hub in WAN
+  - Create Managed Virutal Hub in each region and can connect each regional hub
 
+  
+                                        [ExpressRoute]
+                                             |
+                         [Site2Site] -- [Virtual WAN] -- [Point2Site]
+                                             |
+                                          [VNets]
 
+Virtual WAN SKUs:
+Basic:
+  - Transitive peering NOT SUPPORTED
+  - S2S VPN connections only
+  - Upgrade to Standard supported
 
+Standard:
+  - Transitive peering SUPPORTED
+  - S2S VPN, P2S VPN, ExpressRoute, VNet-to-VNet 
 
+NOTE: The virtual WAN resource represents a virtual overlay of your 
+      Azure network and is a collection of multiple resources.
+
+console > Virtual WAN 
+> Connectivity 
+ > Hubs 
+ > VPN Sites
+ > User VPN Configurations
+ > ExpressRoute Circuits
+ > Virtual Network Connections
+
+- Can create ONE Hub per Region **
+  - when creating hub can create the following
+    - Site to site  
+    - Point to site  
+    - ExpressRoute
 
 
 ## Azure Virtual Machines
