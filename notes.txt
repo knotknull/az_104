@@ -1501,6 +1501,8 @@ Virtual WAN:
   - Manage routes, firewalls, topology thru one interface
   - One Hub per Region, can connect each hub in WAN
   - Create Managed Virutal Hub in each region and can connect each regional hub
+  - any-to-any connectivity
+  - Managed Virtual Network
 
   
                                         [ExpressRoute]
@@ -1537,7 +1539,74 @@ console > Virtual WAN
     - ExpressRoute
 
 
+VWan Lab:
+
+Hub VNet                                        Spoke VNet
++--------------------------------+     +--------------------------------+
+| +------------+  +------------+ |     | +------------+  +------------+ |     
+| | Management |  |   Gateway  | |     | |  Gateway   |  |            | |     
+| |  Subnet    |  |    Subnet  | |     | |  Subnet    |  |    Subnet  | |     
+| |            |  |            | |     | |            |  |            | |     
+| |[Management]|  | [  VNet  ] | |<--->| |[   VNet   ]|  |  [  VM  ]  | |     
+| |[    VM    ]|  | [ Gateway] | |     | |[  Gateway ]|  |  [  VM  ]  | |     
+| |            |  |            | |     | |            |  |            | |     
+| +------------+  +------------+ |     | +------------+  +------------+ |     
++--------------------------------+     +--------------------------------+     
+
+
+
+##################################################################
 ## Azure Virtual Machines
+##################################################################
+
+Azure Virutal Machine
+  - IaaS, scalable computing resource
+  - CPU, Memory, storge, networking
+  - can be created from: CLI, Portal, PowerShell, SDK, API
+
+Core Parts:
+ - VM Sizing: 
+    - CPU / Memory
+ - Networking: 
+    - VNet, Subnet 
+    - NIC, Public IP 
+    - Network Security Group
+ - Storage
+    - Azure Disks   
+        - OS Disk and temp 
+        - Data disk for persistance
+
+        VM Family Types                Description
+     ------------------------      ---------------------------------------------------
+        General Purpose              Balanced CPU to memory. test / dev / small - medium workloads 
+        Compute Optimized            High CPU to memory.  Medium traffic web servers, network appliance, batch, app servers
+        Memory  Optimized            High memory to CPU.  Relational db, caching, in-memory analytics            
+        Storage Optimized            High disk throput and I/O.  Big Data, SQL, NoSQL, data warehouse, OLTP
+        GPU                          Heavy graphic rendering, video editing, AI training and deep learning
+        HPC                          Fastest / most powerful. Large scale compute mathematics, science
+
+
+VM Properties:
+ - Name
+ - Region 
+ - Size 
+ - Image (Windows / Linux) 
+
+        +--resource group --------------+
+        |                               |
+        |     +------- VM --------+     |
+        |     |                   |     |
+        |     | [Disk]  [  NIC  ] |     |
+        |     | [ OS ]  [Private] |     |
+        |     | [Data]  [   IP  ] |------------[Public IP] 
+        |     +-------------------+     |
+        |                               |
+        +-------------------------------+
+
+
+
+
+
 ## Network Traffic Management
 ## Web Apps and Containers
 ## Monitoring
