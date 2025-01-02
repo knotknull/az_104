@@ -1888,6 +1888,77 @@ https://learn.microsoft.com/en-us/training/modules/deploy-vms-from-vhd-templates
 https://github.com/BrentenDovey-ACG/AZ-104_Azure_Administrator/tree/master/AZ-104_Azure_Administrator/09_Azure_Virtual_Machines/Automate_Virtual_Machine_Deployment
 
 
+#LAB: Snapshot an Azure VM Disk
+
+
+# In the Cloud Shell, create a new variable:
+$rg = "<RESOURCE_GROUP_NAME>"
+
+# In the Azure Portal, copy the name of the VM disk and create a new variable:
+$diskname = "<VIRTUAL_MACHINE_DISK_NAME>"
+
+# Create a variable for sasExpiryDuration:
+$sasExpiryDuration = "3600"
+
+# In the Azure Portal, copy the storage account name, and create a new variable:
+$storageAccountName = "<STORAGE_ACCOUNT_NAME>"
+
+# In the Azure Portal, copy the storage account key for key1, and create a new variable:
+$storageAccountKey = "<KEY1_STORAGE_ACCOUNT_KEY>"
+
+# Create additional variables:
+$storageContainerName = "container1"
+$destinationVHDFileName = "disk1.vhd"
+$useAzCopy = 1
+$vmName = "winVM"
+
+# Stop the VM:
+Stop-AzVM -ResourceGroupName $rg -Name $vmName
+
+# Once the VM has stopped, grant access to the disk:
+$sas = Grant-AzDiskAccess -ResourceGroupName $rg -DiskName $diskName -DurationInSecond $sasExpiryDuration -Access Read
+
+# Create an Azure Storage context:
+$destinationContext = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
+
+# Copy the Snapshot to the Container
+if($useAzCopy -eq 1)
+{
+  $containerSASURI = New-AzStorageContainerSASToken -Context $destinationContext -ExpiryTime(get-date).AddSeconds($sasExpiryDuration) -FullUri -Name $storageContainerName -Permission rw
+  azcopy copy $sas.AccessSAS $containerSASURI
+}else{
+  Start-AzStorageBlobCopy -AbsoluteUri $sas.AccessSAS -DestContainer $storageContainerName -DestContext $destinationContext -DestBlob $destinationVHDFileName
+}
+
+
+
+#LAB: Using Custom Images for a Virtual Machine Scale Set in Azure 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
