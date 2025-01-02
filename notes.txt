@@ -1777,7 +1777,7 @@ Duration in minutes:  1
 
 Scale In Policy:  newest VM / oldest VM / balance between AZ and fault domain and then hightest instance identies
 
-Lab: resize Azure VM in an Availability Set: 
+# Lab: Resize Azure VM in an Availability Set: 
 # get current size of VMs
 Get-AzVM
 
@@ -1813,6 +1813,86 @@ Update-AzVM -VM $vm -ResourceGroupName <RESOURCE_GROUP_NAME>
 
 # To view results of the change, enter:
 Get-AzVM 
+
+
+# Automating Virtual Machine Deployments  
+
+ - patch / update OS
+ - pre-install software (web / db server)
+ - preconfigure setting
+
+
+Azure Resource Management (ARM) templates:
+ - Infrastructure as Code (IaC)
+    - text based declaritive JSON of resources and configs
+ - Consistent deployment
+ - Auotmation of deployment
+
+
+Resource: "Virtual Machine" {
+    Virtual Machine Properties: {
+        Name: "VM1",
+        Location: "East US",
+        Size: "Standard_B1s", 
+        Storage: {
+            OSImage: "Linux",
+            DataDisk: "DataDisk1"
+        },
+        Network: {
+            NIC: "Nick1"
+        }
+    }
+}
+
+
+Virtual Hard Disk (VHD) Template: 
+Use a Source VM as a "Golden Image"
+ - Prepare    VM: configure with software, patches, configs
+ - Generalize VM: prepare VM for imaging using 
+    - sysprep (Windows)    
+    - VM Agent deprovision (Linux)    
+
+console > Templates > Add
+
+FYI: template is now under Template Spec (see vm_arm_template_MAP.json)
+
+Deploying this template spins up Linux VM.  
+Going to the VM resource 
+console > resource group > scratch.grp > simpleLinuxVM
+
+NOTE: On right hand menu, scroll toward bottom, under Automation
+go to Export template to create ARM template to create the current VM
+
+VM > Automation > Export template
+
+
+NOTE: ssh to VM and run 
+sudo waagent -deprovision+user
+
+
+STEP TO deallocate / generalize and create machine image: 
+at Powershell:
+
+$rg = (Get-AzResourceGroup).ResourceGroupName
+$myvm = az vm list --query [].name -o tsv
+
+az vm deallocate --resource-group $rg  --name $myvm
+az vm generalize --resource-group $rg  --name $myvm
+az image create --resource-group $rg  --name  myImageName --source $myvm
+
+
+https://learn.microsoft.com/en-us/azure/virtual-machines/infrastructure-automation
+
+https://learn.microsoft.com/en-us/training/modules/deploy-vms-from-vhd-templates/
+
+https://github.com/BrentenDovey-ACG/AZ-104_Azure_Administrator/tree/master/AZ-104_Azure_Administrator/09_Azure_Virtual_Machines/Automate_Virtual_Machine_Deployment
+
+
+
+
+
+
+
 
 
 
