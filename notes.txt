@@ -1646,6 +1646,83 @@ Newer versions of the Linux Agent copy the Base64-encoded data to /var/lib/waage
 # Managing VM Disks
 
 
+Virtual Hard Disk (VHD)
+  - file representation of what is found on a hard disk
+  - VMs use VHDs to store OS, apps, data.
+  - VHD stored as page blobs in blob service 
+
+
+VHD purposes:
+  - OS Disk
+    - default with VM
+    - stores OS
+    - registered as SATA drive
+    - either C: on Windows or "/" on linux
+    - max capacity 4095 GB (4TB)
+
+  - Temp Disk
+    - default with VM
+    - stores non-persistent data like page / swap files
+    - localized to underlying Microsoft infrastructure
+
+  - Data Disk
+    - additional disks attached to a VM
+    - used for storing persistend data liek files or databases
+    - registered as a SCSI drive
+    - max cap 32,767 GB  (32TB)
+
+Managed vs. Unmanaged Disks
+
+Managed: 
+  - Azure Resource Manager (ARM) managed resource
+  - Azure-Managed storage accounts
+  - Availability supported
+  - Role-Based Access Countrol (RBAC)
+  - Snashot support
+  - Backup support
+
+Unmanaged: 
+  - Not an Azure Resource Manager managed resource 
+  - Manually maanged storage accounts
+  - Availability NOT guaranteed
+
+Disk Types: 
+  - UltraDisk (SSD)     I/O intensive workloads, i.e. top-tier OLTP, transaction heavy workloads (only as data disk)
+  - Premium   (SSD)     Production / performance workloads
+  - Standard  (SSD)     web servers, light enterprise apps, and dev/test workloads
+  - Standard  (HDD)     Backup, non-critical workloads
+
+NOTE: performance limited to specific VM sizes
+
+Disk Encryption at Rest 
+ - Storage Service Encryption (SSE)
+    - encryption of physical disks in the data center
+    - built into azure platform
+
+ - Azure Disk Encryption (ADE)
+    - optional encryption of VHD
+    - ensures a disk is only accessible by the VM that owns the disk
+    - OS tools like BitLocker and DM-Crypt
+
+console > Virutal Machine > VM Instance > Disk > Additional Settings
+
+Disks to encrypt: 
+[ Data Disk ]
+
+[click to select key]
+ >> create new key vault
+    - Access Policy:  (x) Azure Disk Encryption for volume encryption
+
+ >> create new key 
+
+
+at PowerSehll: 
+Get-AzVMDiskEncryptionStatus -ResourceGroupName {resource_grp_name} -VMName {virt_machine_name}
+
+OsVolumeEncrypted          : NotEncrypted      
+DataVolumesEncrypted       : NotMounted 
+OsVolumeEncryptionSettings :       
+ProgressMessage            : Encryption succeeded for data volumes       
 
 
 
