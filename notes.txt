@@ -1934,24 +1934,51 @@ if($useAzCopy -eq 1)
 
 #LAB: Using Custom Images for a Virtual Machine Scale Set in Azure 
 
+# In Cloud Shell, set a variable for the resource group name using the following command:
+RG=$(az group list --query [].name --output tsv)
+
+# In Cloud Shell, set a variable for the virtual machine using the following command:
+VM=$(az vm list --query [].id --output tsv)
+
+# Create an image gallery:
+az sig create --resource-group $RG --location westus --gallery-name imageGallery
+
+# Create an image definition: 
+az sig image-definition create \
+--resource-group $RG \
+--location westus \
+--gallery-name imageGallery \
+--gallery-image-definition imageDefinition \
+--publisher pluralsight \
+--offer ubuntu \
+--sku Ubuntu-1804 \
+--os-type Linux \
+--os-state specialized \
+--hyper-v-generation V1 \
+--features IsAcceleratedNetworkSupported=True
 
 
+# Create an image version:
+az sig image-version create \
+--resource-group $RG \
+--location westus \
+--gallery-name imageGallery \
+--gallery-image-definition imageDefinition \
+--gallery-image-version 1.0.0 \
+--target-regions "westus=1" "eastus=1" \
+--virtual-machine $VM
 
+# set a variable for the image resource ID using the following command:
+IMAGE=$(az sig image-definition list --gallery-name imageGallery --resource-group $RG --query [].id --output tsv)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# create a VM scale set with the following command:
+az vmss create \
+--resource-group $RG \
+--name myVmss \
+--image $IMAGE \
+--specialized \
+--generate-ssh-key \
+--location westus
 
 
 
