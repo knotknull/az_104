@@ -1724,7 +1724,95 @@ DataVolumesEncrypted       : NotMounted
 OsVolumeEncryptionSettings :       
 ProgressMessage            : Encryption succeeded for data volumes       
 
+# Config VM Availability / Scale sets
 
+Availability Sets:
+ - protect redundant VMs
+ - protect against underlying host failures 
+ - prevent outages due to maintenance
+
+Fault Domain:
+ - underlying failure: power and network outages
+ - availability set handles spreading VMs across fault domains
+   - Max of 3 Fault Domains
+
+Update Domain:
+ - logical grouping of infra for maintenance / updates 
+   - Max of 20 Update Domains
+
+Availability Sets allow and Availabilty Zone to be HA if a rack goes down
+
+NOTE: Can only place a VM in an Availablity Set upon creation of the VM
+
+
+Scale Sets:
+
+As traffic increase or decreases, VMs will be spun up or down.
+ - simplifiy scaling configs
+ - save costs by aligning usage w/ demand
+ - scale to meet demand to traffic
+
+Scale Set Components:   VM Defintion + Scaling Definition + Scale-In Policy
+
+  VM Definition: 
+   - Region / Size / Image / Name / Storage / Net
+
+  Scaling Definition: 
+   - Default 
+   - Condition, i.e. CPU > 80% 
+   - Actiopn: +1 VM 
+
+  Scale-In Policy: 
+   - Delete VMs by priority as scaling-in operations occur 
+
+ex. 
+Scale Out: 
+CPU threshold (%)  :  75
+Duration in minutes:  10
+Number of instance to increase by: 1 
+
+Scale In: 
+CPU threshold (%)  :  25
+Duration in minutes:  1
+
+Scale In Policy:  newest VM / oldest VM / balance between AZ and fault domain and then hightest instance identies
+
+Lab: resize Azure VM in an Availability Set: 
+# get current size of VMs
+Get-AzVM
+
+# get VM sub name
+Get-AzSubscription
+
+# check VM CPU metrics
+az monitor metrics list --resource /subscriptions/<ID>/resourceGroups/<RESOURCE_GROUP_NAME>/providers/Microsoft.Compute/virtualMachines/labVM0
+
+# Assign the value to the $vm variable:
+$vm = Get-AzVM -ResourceGroupName <RESOURCE_GROUP_NAME> -VMName labVM0
+
+# Assign variable the new VM size
+$vm.HardwareProfile.VmSize = "Standard_B1s"
+
+# Perform the PowerShell commands to resize the VM:
+Update-AzVM -VM $vm -ResourceGroupName <RESOURCE_GROUP_NAME>
+
+# Check that labVM0 was resized:
+Get-AzVM 
+
+# Check VM CPU metrics for labVM1:
+az monitor metrics list --resource /subscriptions/<ID>/resourceGroups/<RESOURCE_GROUP_NAME>/providers/Microsoft.Compute/virtualMachines/labVM1
+
+# Check the VM sizes available:
+$vm = Get-AzVMSize -ResourceGroupName <RESOURCE_GROUP_NAME> -VMName labVM1
+
+# Assign our variable:
+$vm.HardwareProfile.VmSize = "Standard_B1s"
+
+# Perform the PowerShell commands to resize the VM:
+Update-AzVM -VM $vm -ResourceGroupName <RESOURCE_GROUP_NAME>
+
+# To view results of the change, enter:
+Get-AzVM 
 
 
 
