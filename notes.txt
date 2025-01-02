@@ -1604,6 +1604,50 @@ VM Properties:
         +-------------------------------+
 
 
+VM Architecture
+
+        +--resource group -----------------------------------+
+        |                                                    |
+        |      +--VNet---------------------------+           |
+        |      |                                 |           |
+        |      |  +--Subnet------------------+   |           |
+        |      |  |                          |   |           |
+        |      |  |  +------- VM ---------+  |   |           |
+        |      |  |  |                    |  |   |           |
+        |      |  |  |             [Net]  |  |   |           |
+        |      |  |  |  [  NIC  ]--[Sec]  |  |   |           |
+        |      |  |  |  [Priv IP]  [Grp]  |  |   |           |
+        |      |  |  |     |              |  |   |           |
+        |      |  |  |     +------------------------[Public] |
+        |      |  |  |                    |  |   |  [  IP  ] |
+        |      |  |  +--------------------+  |   |           |
+        |      |  |                          |   |           |
+        |      |  +--------------------------+   |           |
+        |      |                                 |           |
+        |      +---------------------------------+           |
+        |                                                    |
+        +----------------------------------------------------+
+
+NOTE:  
+Custom Data allows to pass a cloud-init script (or other data) while VM is being provisioned. 
+(see cloud-init.txt)
+
+
+Windows:
+Custom data is placed in %SYSTEMDRIVE%\AzureData\CustomData.bin as a binary file, but it isn't processed. 
+If you want to process this file, you need to build a custom image and write code to process CustomData.bin.
+
+Linux:
+On Linux operating systems, custom data is passed to the VM via the ovf-env.xml file. 
+That file is copied to the /var/lib/waagent directory during provisioning. 
+Newer versions of the Linux Agent copy the Base64-encoded data to /var/lib/waagent/CustomData for convenience.
+
+
+# Managing VM Disks
+
+
+
+
 
 
 
