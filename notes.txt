@@ -1981,20 +1981,140 @@ az vmss create \
 --location westus
 
 
+# Managing Virtual Machine Updates
+Update Management 
+ - manages system updates and patches in Azure and on-prem 
+ - Linux and WIndows 
+ - Scheduling  
+ - Compliance scanning / reporting
+
+OS contains: 
+  + Log Analytics Agent
+    - writes to Log Analytics Workspace 
+
+Automation Account create to execute update   
+ - service agent
+
+Update Jobs 
+  + run by Hybrid Runbook Worker (part of Automation Account)
+
+Update Steps:
+1. Log Analytics Agent - Pre-Update Report sent to Automation Account
+2. User Configures which updates to implement
+3. Hybrid Runbook Worker - checks Maintenance windows w/ Automation Account
+4. Starts updates within main windows
+5. Log Analytics Agent - Provides Update Report to Automation Account
 
 
+Enable Update Management: 
+console > VM > VM Instance > Operations > Update Manager
+
+NOTE:  THIS HAS COMPLETELY CHANGED
 
 
+# Automating Virtual Machine Configuration
+
+Config Automation
+ - automates config management of VMs using an Automation account 
+   and PowerShell Desired State Configuration (DSC)
+
+ - supports linux / windows VMs
+ - Built-in pull server
+ - PowerShell DSC
+
+ex. 
+Configuration MyDscConfiguration {
+    Node "localhost" {
+        WindowsFeature MyFeatureInstance {
+            Ensure = 'Present'
+            Name   = 'Present'
+        }
+    }
+}
 
 
+    [       VM       ]  <------------------->       Automation Account
+    [ Config Manager ]                          PowerShell Desired State Config
+
+NOTE:  THIS HAS COMPLETELY CHANGED
 
 
+# Using Azure Bastion 
+
+Azure Bastion 
+ - Fully managed PaaS (jump box) 
+ - RDP / SSH connectivty
+ - No public IPs exposed
+
+- RDP / SSH connectivity over SSL / TLS
+- Deployed per virutal network **
+     - connectivity to all VMs in VNet
+- HTML5 browser supported
+- Bastion has a public IP but VMs in VNet do not need one to connect
+- Only IPv4 supported
+- Secruity is managed
 
 
+create AzureBastionSubnet 
+ - jumpbox connect to that and then out to subnet in VNet
+
+    +--VNet-----------------------------------------------+
+    |                                                     |
+    |  +AzureBastionSubnet----+     +DefaultSubnet---+    |
+    |  |                      |     |                |    |
+    |  |     [ Bastion ]      |<--->|  [ VM ]        |    |
+    |  |     [  PaaS   ]      |     |                |    |
+    |  |                      |<--->|  [ VM ]        |    |
+    |  |                      |     |                |    |
+    |  +----------------------+     +----------------+    |
+    |                                                     |
+    +-----------------------------------------------------+
 
 
+- create VM
+- create subnet called AzureBastionSubnet in the same VNet as the VM created
+- create bastion (AzureBastionSubnet is selected as subnet automatically)
 
+
+resource group > VM created > connect > Bastion > Use Bastion
+username / password 
+connect
+ - new tab opened in browser
+ - ssh (RDP) session into VM via browser 
+
+Overiew: 
+  - Private Traffic 
+    - traffic from Bastion to target VM stays within VNets 
+        - Peered VNets included
+
+  - Hardened Bastion 
+    - NSGs are not needed because Bastion is hardened internally
+        
+  - Service Integration 
+    - Bastion integrates natively with Azure Firewall
+  
+  - Concurrent Connections
+    - total max connections 
+        - 25 RDP
+        - 50 SSH
+  
+  - Audit logs
+    - Enable diagnostics for auditing Bastion connections
+  
+  - Required Role
+    - Reader role perms required on: 
+        - Bastion
+        - VM
+        - NIC
+
+
+##################################################################
 ## Network Traffic Management
+##################################################################
+
+# Azure Load Balancer
+
+
 ## Web Apps and Containers
 ## Monitoring
 ## Backup and recovery
