@@ -2114,6 +2114,186 @@ Overiew:
 
 # Azure Load Balancer
 
+Azure Load Balancer
+ - distribute trraffic between backend compute
+    (scale sets, availability sets, VMs)
+
+- Layer 4 load balancing (TCP / UDP)
+- high availability
+- can balance on prem and Azure traffic
+- Frontend IP 
+    - private or public endpoint for accessing the load balancing solution
+- backend pool (compute)
+- Health Probe
+- Rules 
+    - Load balancing or NAT rules for allowing  inbound / outboudn access
+- DNAT
+    - Port forward inbound traffic to nodes in the backend pool
+        - i.e. SSH
+- SNAT
+    - Port forward outbound traffic from nodes in the backend pool
+        - nodes don't have to give up private ip address
+
+
+       [Public IP]
+            |
+Azure       |
++-----------------------+
+|VNEt       |           |
+|       [Azure LB]      |
+|           |           |
+|    +------+------+    |
+|   VM     VM     VM    |
+|                       |
+|                       |
++-----------------------+
+
+
+
+
+
+FYI: 
+
+VNet <--> Subnet <--> connected devices (NIC)
+
+console > load balancers > 
+
+SKU: 
+ - standard: extreme performance, low latency   99.99% SLA
+ - gateway : deploy, scale, run third party appliances 
+ - basic (rertiring soon)
+
+
+                        Standard Load Balancer                  Basic Load Balancer
+Backend pool size           up to 1000 instances                up to 300 instances
+Backend pool endpt          any VM or VM Scale                  VM in single availablity set or vm scale set
+Health probes               TCP, HTTP, HTTPS                    TCP, HTTP
+probe down behavior         TCP alive when all probes down      tcp connections end when all down
+Availability Zones          Zone-redundant / zonal frontends    N/A 
+Diagnositics                Azure Monitory multi-dim metrics    Azure Monitor logs 
+HA Protocols                Available for Internal LB           N/A
+Secure by default           closed to inbound flows             Open by default, NSG optional
+                            allowed by a network sec grp 
+                            internal traffice from VNet     
+Outbound Rules              Declarative outbound NAT config     N/A
+
+
+LAB: 
+(see scripts/cloud-init.txt)
+az vm create --resource-group $RG --location $LOC --name myVM1 --nics myNicVM1 --image debian11  --generate-ssh-keys --custom-data cloud-init.txt --zone 1 --no-wait 
+az vm create --resource-group $RG --location $LOC --name myVM1 --nics myNicVM2 --image debian11  --generate-ssh-keys --custom-data cloud-init.txt --zone 1 --no-wait 
+13.90.199.233
+
+## create NIC (repeat for nyNicVM2)
+## 
+az network nic create \
+--resource-group $RG \
+--location $LOC \
+--name myNicVM1 \
+--vnet-name $VNET \
+--subnet $SNET \
+--network-security-group $NSG
+
+## create VM (repeat for myNicVM2)
+## 
+az vm create `
+--resource-group $RG `
+--location $LOC `
+--name myVM1 `
+--nics myNicVM1 `
+--image debian11 `
+--generate-ssh-keys `
+--custom-data cloud-init.txt `
+--zone 1 `
+--no-wait
+
+
+## create load balncer public IP addr
+##
+az network public-ip create --resource-group $RG  \
+  --location $LOC --name myPublicIP --sku Standard
+
+
+## create load balancer 
+##
+az network lb create \
+--resource-group $RG \
+--location $LOC \
+--name myLoadBalancer \
+--sku Standard \
+--public-ip-address myPublicIP \
+--frontend-ip-name myFrontEnd \
+--backend-pool-name myBackEndPool
+
+
+## create health probe to load balancer
+##
+az network lb probe create \
+--resource-group $RG \
+--lb-name myLoadBalancer \
+--name myHealthProbe \
+--protocol tcp \
+--port 80
+
+
+
+## create load balancing rules
+##
+az network lb rule create \
+--resource-group $RG \
+--lb-name myLoadBalancer \
+--name myHTTPRule \
+--protocol tcp \
+--frontend-port 80 \
+--backend-port 80 \
+--frontend-ip-name myFrontEnd \
+--backend-pool-name myBackEndPool \
+--probe-name myHealthProbe \
+--disable-outbound-snat true
+
+
+
+## Add VMs to load balancer pool
+##
+az network nic ip-config address-pool add --address-pool myBackEndPool \
+--ip-config-name ipconfig1 --nic-name myNicVM1 \
+--resource-group $RG  --lb-name myLoadBalancer
+
+az network nic ip-config address-pool add --address-pool myBackEndPool \
+--ip-config-name ipconfig1 --nic-name myNicVM2 \
+--resource-group $RG  --lb-name myLoadBalancer
+
+## Get public IP of the load balancer 
+## 
+az network public-ip show \
+--resource-group $RG \
+--name myPublicIP \
+--query [ipAddress] \
+--output tsv
+
+
+# Azure Application Gateway
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Web Apps and Containers
 ## Monitoring

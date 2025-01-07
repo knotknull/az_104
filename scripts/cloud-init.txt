@@ -6,7 +6,7 @@ packages:
   - npm
 write_files:
   - owner: www-data:www-data
-    path: /etc/nginx/sites-available/default
+  - path: /etc/nginx/sites-available/default
     content: |
       server {
         listen 80;
@@ -19,8 +19,8 @@ write_files:
           proxy_cache_bypass $http_upgrade;
         }
       }
-  - owner: root:root
-    path: /home/root/myapp/index.js
+  - owner: azureuser:azureuser
+  - path: /home/azureuser/myapp/index.js
     content: |
       var express = require('express')
       var app = express()
@@ -33,7 +33,7 @@ write_files:
       })
 runcmd:
   - service nginx restart
-  - cd "/home/root/myapp"
+  - cd "/home/azureuser/myapp"
   - npm init
   - npm install express -y
   - nodejs index.js
