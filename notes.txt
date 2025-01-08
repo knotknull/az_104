@@ -2274,28 +2274,161 @@ az network public-ip show \
 
 # Azure Application Gateway
 
+Application Gateway 
+ - networking service for load balancing between backend compute
+    - also allows for autoscaling
+ - Layer 7 load balancing (HTTP / HTTPS)
+    - SSL Termination
+ - URL path-based routing
+ - VM, VM Scale Sets, App Service
 
 
 
+       [Public IP]
+            |
+Azure       |
++-----------------------+
+|VNEt       |           |
+|       [Azure LB]      |
+|           |           |
+|    +-------------+    |
+|   VM            /app  |
+|                       |
+|                       |
++-----------------------+
+
+Components 
+
+- VNet
+- Application Gateway subnet
+- Frontend IP (private, public or both)
+- Backend Pool
+- Listener
+    - Port, protocol, certificate configs (SSL termination)
+- Rules 
+    - Load balancing, HTTP settings, health probe  
 
 
+- Can enable autoscaling with Application Gateway
+- Can also setup Web Application Firewall
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+##################################################################
 ## Web Apps and Containers
+##################################################################
+
+# Creating An App Serice Plan
+
+App Service Plan  - defines set of compute resources for a web app to run on 
+ - Region
+ - number of VMs
+ - size of VMs  (small, med, large)
+ - pricing tier (free, shared, basic, standard, premium, premiumv2, v3, isolated)
+ - Platform as a Service
+    - Managed Infrastructure
+    - High Availability
+    - Scalability
+
+compute types:
+ - Shared
+   - Run apps on same VM as other apps, including other customers
+     - cannot scale out because of shared compute
+
+ - Dedicated
+   - Run only apps using same App Service Plan on dedicated VM
+    (Isolated compute)
+
+ - Isolated
+   - Run apps using dedicated VMs and dedicated VNets 
+    (Isolated compute and networking)
+
+
+console > App Service Plans
+
+Can access resources via VNet integration
+Hybrid connections allow access in private networks
+Scale Up / Out (# of instances)
+
+
+# Creating Web Apps  (think Elastic Beanstalk)
+Web App Service 
+ - PaaS 
+ - HA
+ - Autoscaling In / Out
+ - Deployment Slots 
+    - CI / CD: staging slots for deployments, prod and staging slots
+
+ - Azure Service Integration: i.e. AD, VNets, 
+ - Can utilize database connection string to access DB resources
+ - Deploy via zip / github actions / etc
+
+console > App Services 
+NOTE: can choose web app, static web app, web app + db, etc. 
+ choose runtime stack: Java, python, .Net, Node, PHP
+ operating system
+ app service plan
+ deployment: continuous (i.e. git hub actions)
+ monitoring: enable Application Insights (performance monitoring) / Microsoft Defender
+    
+
+
+# Configuring Web Apps
+
+- Custom domains
+- Scaling options
+- Deployment slots
+- Network config: VNets, CDN
+- Backup
+
+Custom Domain:
+use custom domain by updating "A" Record to IP address provided by public IP of Web App and 
+add TXT record with Verification code that Azure provides
+
+Scaling: 
+can scale out (number of instances and up (increase VM sizing) 
+
+Deployment slots: 
+production / stage slots
+    - secondary web app resource
+
+ VNet Integration allows to access resources
+
+Backup to Blob in Storage Account
+    - full backup or snapshots 
+        - app config
+        - file content
+        - database connection
+
+web app > configuration:
+ - Env variables 
+ - DB connection strings
+
+web app > authentication:
+ - Azure AD
+ - Google
+ - Facebook
+
+web app > custom domain:
+
+TXT / A record to create: 
+Type    Host    Value
+-----   -----   -----------------------------
+TXT     asuid   71E................4126c
+A       @       51.22.31.189
+
+web app > TLS / SSL settings: 
+ - configure protocol (HTTPS) and private key / public key certificates
+
+
+web app > Networking 
+ - VNet Integration
+ - Hybrid Connection 
+ - Azure Front Doof w/ WAF
+ - Azure CDN
+ - Access restrictions
+
+
+
+
 ## Monitoring
 ## Backup and recovery
 
