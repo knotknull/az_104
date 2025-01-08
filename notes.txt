@@ -2427,6 +2427,20 @@ web app > Networking
  - Access restrictions
 
 
+# Describing Containers in Azure
+
+Containers: Dockerfile -> Continer Image -> Azure Container Registry (ACR) -> Container Host
+(see scripts/continers)
+
+Create Continer Registry 
+console > continer registries > add
+
+
+NOTE:  container registry created knotknulldev.azurecr.io
+
+
+# Using Azure Container Instances for Containers
+
 
 
 ## Monitoring
