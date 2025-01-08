@@ -2512,7 +2512,73 @@ az acr build --image sample/hello-world:v1 --registry acrbuildcontainer11 \
 az acr run --registry acrbuildcontainer11 --cmd '$Registry/sample/hello-world:v1' /dev/null
 
 
+
+# Using Azure Kubernetes Service
+
+ACI: no scaling / management
+
+Kubernetes Container Solution
+ - Scalability
+ - Management
+
+
+Azure Kubernetes Service : 
+  - Serverless platform for Kubernetes
+        - abstracts away managing k8s cluster 
+        - manage kubernetes versioning / upgrades
+  - Autoscaling: pods and clusters
+  - Identity and Access Management (Azure AD)
+  - Storage Volumes: Azure storage
+  - Networking: VNets, NSG, network policies
+    - Container Network Interface (CNI)
+  - Registry 
+    - ACR, Docker Hub, private / public. Docker images supported
+
+
++- VNet ----------------------------------------------------------------+
+|                                                                       |        
+|   +-AKS Cluster ---------------------------------------------------+  | 
+|   |                                                                |  | 
+|   |  +-------+    +-Pods -----+     +-Pods -----+                  |  |
+|   |  |       |    |           |     |           |                  |  |
+|   |  |       |    | []   []   |     | []   []   |                  |  |
+|   |  |       |    | []   []   |     | []   []   |                  |  |
+|   |  |       |    | []   []   |     | []   []   |                  |  |
+|   |  +-------+    +-----------+     +-----------+                  |  | 
+|   |   Control                                                      |  | 
+|   |    Plane      +----------------------------------------+       |  | 
+|   |               |                                        |       |  | 
+|   |            +--|                  Node Pools            |--+    |  | 
+|   |            |  |                                        |  |    |  | 
+|   |            |  +----------------------------------------+  |    |  |        
+|   |            |                                              |    |  | 
+|   +------------|----------------------------------------------|----+  | 
+|              Kubenet                                         CNI      |
++-----------------------------------------------------------------------+
+
+
+
+##################################################################
 ## Monitoring
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Backup and recovery
 
 
