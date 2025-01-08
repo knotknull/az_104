@@ -2441,6 +2441,75 @@ NOTE:  container registry created knotknulldev.azurecr.io
 
 # Using Azure Container Instances for Containers
 
+Azure Container Instances 
+ - container hosting service, like Docker.
+
+container registry --> container instance 
+
+Container Groups 
+- collections of containers that share a lifecycle, resources, local networking, and storage
+
+
++- Azure Container Instance ----------------------+
+|                                                 |        
+|    +-Container Group-+    +-Container Group-+   |        
+|    |                 |    |                 |   |
+|    |  [container]    |    |  [container]    |   |
+|    |                 |    |  [container]    |   |
+|    |                 |    |                 |   |
+|    +-----------------+    +-----------------+   |        
+|                                                 |        
+|                                                 |        
++-------------------------------------------------+
+
+
+Container Storage
+ - can persist storage by mounting Azure Files
+
+
+Container Networking
+ - can deploy as either private or public resources
+    - deploy to private VNet
+    - assign PIP and get FQDN: example.eastus.azurecontainer.io
+
+
+
+console > container instances
+image source: quickstart / azure container registry / docker hub / other
+registry
+image
+imagetag
+
+
+Azure Container Instances 
+ - No autoscaling options
+ - manual deploy 
+    - CPU, memory, GPU is determined
+ - storage is ephemeral
+    - persisted by mounting Azure Files
+
+Container Group are top-level resource in ACI
+Restart: Always, Never, OnFailure
+
+LAB:  ACR Tasks allows you to build and deploy container
+
+# create container registry
+# 
+az acr create --resource-group <RESOURCE_GROUP_NAME> \
+--name acrbuildcontainer11 --sku Basic --admin-enabled true
+
+# create Dockerfile
+# 
+echo "FROM hello-world" > Dockerfile
+
+# build container image from Dockerfile 
+# 
+az acr build --image sample/hello-world:v1 --registry acrbuildcontainer11 \
+--file Dockerfile .
+
+# Run container image from container registry
+# 
+az acr run --registry acrbuildcontainer11 --cmd '$Registry/sample/hello-world:v1' /dev/null
 
 
 ## Monitoring
