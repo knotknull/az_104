@@ -2562,11 +2562,73 @@ Azure Kubernetes Service :
 ## Monitoring
 ##################################################################
 
+Azure Monitor:
+ - provides end-to-end monitoring for applications and underlying infrastructure 
+ - captures metrics and logs on monitored resources
+    - Azure resources
+    - On prem resources
+    - platform services
+    - application code
 
 
+Metrics vs. Logs 
+
+Metrics:
+  - short time-based data
+  - frequent updates
+  - near real-time data
+  - alerts based on numeric values
+  - visualization via Metrics Explorer
+
+Logs:
+  - Long, event-based data
+  - Sporadically updated
+  - Free-form and/or structured
+  - Stored in Log Analytics workspace
+  - Built-in query language (Kusto)
 
 
+Azure Monitor: Metrics             >> Metrics Explorer
+Log Analytics: Logs,  Metric       >> Log Analyticss
+Storage Accts: Logs,  Metrics
+Event Hub    : Logs,  Metric       >> Non-Azure Destinations
 
+
+console > vm > monitoring > metrics > Metrics Explorer
+
+console > monitor > metrics > select scope (i.e. vm, network, storage, etc )
+
+console > monitor > logs
+
+Setting up logging for a resource:
+resource group > storage account > monitoring > diagnostics settings 
+- select diagnostic setting
+- add    diagnostic setting
+metrics: transaction 
+destination: 
+    - Send to Log Analytics workspace
+    - Archive to a storage account
+    - Stream to an event hub
+    - Send to partner solution
+
+NOTE: this metrics can be sent to 4 differnt endpoints
+
+Metrics how to use:
+ - Metrics Explorer
+ - query in Log Analytics
+ - Alert and take action
+ - Export and archive
+ - gathered by default
+
+Logs how to use:
+ - query in Log Analytics
+ - Archive
+ - Stream to 3rd party
+ - not gathered by default
+
+Diagnostic settings: 
+ - os-level data
+ - App-level data
 
 
 
