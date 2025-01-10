@@ -2562,6 +2562,8 @@ Azure Kubernetes Service :
 ## Monitoring
 ##################################################################
 
+# Using Azure Monitor
+
 Azure Monitor:
  - provides end-to-end monitoring for applications and underlying infrastructure 
  - captures metrics and logs on monitored resources
@@ -2631,8 +2633,19 @@ Diagnostic settings:
  - App-level data
 
 
+# Setting up Actions and Alerts
 
+Azure Monitor Alerting
+ - alerts on signals that pompt to take action  
+   help automate monitoring / diagnostics
 
+Alert: 
+  - Resource :  i.e. VM 
+  - Condition:  signals / logic 
+  - Actions  :  action group
+
+Signal Types: metric, activity, log signals 
+Action Group: action to take place when alert triggered
 
 
 
