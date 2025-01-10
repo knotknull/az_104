@@ -2791,8 +2791,37 @@ Utilize Instrumentation Key:  InstrumentationKey=xxyy2211
 env APPINSIGHTS_INSTRUMENTATIONKEY=xxyy2211
 
 
+# Using Network Watcher
+
+Azure Network Watcher 
+ - service of networking tools for monitoring / diagnostics
+    - overview of topologies
+    - monitor connectivity in Azure
+    - monitor connectivity in hybrid networks
+ - troubleshoot connectivity / hybrid network solutions
+ - enable per region in subscription
+
+
+Monitor tools: 
+- topology 
+- connection monitor
+- network performance monitor
+
+Diagnostic tools: 
+- IP Flow Verify
+    - test if traffic is allowed or denied, inbound / outbound from VMs
+- Next Hop
+    - determine how traffice flows from VM to Dest
+- Effective Security Rules
+    - determine security rules on a NIC
+- Packet Capture
+- Connection Troupbleshoot
+    - connectivity between src and dest vm
+- VPN Diagnostics
+
+
+
 
 ## Backup and recovery
-
 
 .
