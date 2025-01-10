@@ -2735,6 +2735,61 @@ Specific Insights: VM, Networks, Container, Apps
 Insights provides analytics on each resource that is setup accordingly
 
 
+# Configuring Application Insights
+
+Application Insights
+  - full stack app monitoring solution
+  - supports any app instrumented with App Insights
+  - Repo for events and metrics data
+  - telemetry data is streamed into Application Insights resource
+
+features:
+ - metrics 
+ - alerts 
+ - profiler
+    - how requests are delivered: 
+        - page elements and performance
+ - application map
+    - topological view of app
+    - identify dependency issues i.e. bottlenecks
+ - usage analytics
+    - user metrics / client-side events
+
+Components:
+
+ [Client Side] <--> [Application] <--> [Dependencies]
+       |                  |                  | 
+       +------------------+------------------+
+                          |
+                Application Insights
+
+
+NOTE: select Applicaton Insights off Monitoring tab in Web Apps setup
+
+
+Application Insights: 
+- App map
+- Live Metrics
+- Failures
+- Performance
+
+Can use instrumentation key to send metrics via code 
+
+Application Insights Overview: 
+ - Connection String:  InstrumentationKey=xxyy2211
+
+App Service > Settings > Configuration
+Can add environment variable via Application Setting and configure 
+APPINSIGHTS_INSTRUMENTATIONKEY=xxyy2211
+
+Runtime Instrumentation: 
+    - codeless approach, no package information
+
+Buil-TIme Instrumentation: 
+    - code approach via SDK
+
+Utilize Instrumentation Key:  InstrumentationKey=xxyy2211
+env APPINSIGHTS_INSTRUMENTATIONKEY=xxyy2211
 
 
 
