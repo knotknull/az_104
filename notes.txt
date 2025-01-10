@@ -2646,9 +2646,93 @@ Alert:
 
 Signal Types: metric, activity, log signals 
 Action Group: action to take place when alert triggered
+        email, sms, webhooks, automation account, etc.
 
 
+console > monitor > alert > create alert 
 
+scope:  select resource
+condition: 
+    - signal name
+    - alert logic: agg type / operator / threshold 
+       (i.e. storage availabilty: availability avg < 20% )
+action: 
+ - create action group
+    - notifications
+    - actions: 
+        - Automation Runbook
+        - Azure functions
+        - ITSM
+        - Webhook
+
+
+# Configure Azure Monitor Logs 
+
+Azure Monitor Logs == Log Analytics 
+
+Log Analytics: 
+ - service for aggregating log data in a single pane 
+    - analyzed
+    - visualized 
+    - queried
+
+ - Internal Data
+    - azure resources
+    - AD tenannt 
+    - subscriptions
+
+ - External Data
+    - on-prem resources
+
+Log Analytics Workspace 
+    - metrics and logs repository
+    - receives data streams for data sources (log events)
+    - provide actions: 
+        - visualize
+        - alert
+        - insights  (Kusto query language)
+
+
+console > Log Analytics workspaces > create
+
+# Understanding Monitor Insights
+
+Azure Insights: 
+ Service Monitoring
+  - service specific monitoring features built into Azure Monitor
+    - VM Insights
+    - Network Insights
+    - Container Insights
+    - Application Insights
+
+VM Insights: 
+ - monitoring service for VM and VM Scale Sets
+    - requires Log Analytics workspace
+    - requires Log Analytics agent
+    - aka Azure Monitor for VMs
+
+Network Insights: 
+ - monitoring service for virtual network resources
+    - No Agent installation required
+    - Works in tandem w/ Network Watcher (if enabled)
+    - aka Azure Monitor for Networks
+
+Container Insights: 
+ - monitoring service to containers or AKS clusters
+    - requires Log Analytics workspace 
+    - requires Log Analytics agent 
+
+Application Insights: 
+ - monitoring service to application code
+    - App Insights resource
+    - Instrumentation of app code
+
+console > monitor > Insights > storage accounts 
+NOTE: shows storage account metrics from setting up storage account analytics work space previously
+
+Keys: 
+Specific Insights: VM, Networks, Container, Apps    
+Insights provides analytics on each resource that is setup accordingly
 
 
 
