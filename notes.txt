@@ -2766,7 +2766,6 @@ Components:
 
 NOTE: select Applicaton Insights off Monitoring tab in Web Apps setup
 
-
 Application Insights: 
 - App map
 - Live Metrics
