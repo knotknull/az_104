@@ -2556,6 +2556,44 @@ Azure Kubernetes Service :
 |              Kubenet                                         CNI      |
 +-----------------------------------------------------------------------+
 
+LINKS:  *** 
+https://learn.microsoft.com/en-us/azure/app-service/overview-hosting-plans
+https://learn.microsoft.com/en-us/training/modules/deploy-run-container-app-service/
+
+https://learn.microsoft.com/en-us/azure/app-service/overview
+https://learn.microsoft.com/en-us/training/modules/deploy-run-container-app-service/
+
+https://learn.microsoft.com/en-us/training/paths/deploy-a-website-with-azure-app-service/
+https://learn.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore?tabs=net80&pivots=development-environment-vs
+
+
+https://learn.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal
+https://learn.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain?tabs=root%2Cazurecli
+
+https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots?tabs=portal
+https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-bindings
+
+https://learn.microsoft.com/en-us/azure/app-service/manage-backup?tabs=portal
+
+https://learn.microsoft.com/en-us/azure/app-service/manage-scale-up
+
+
+
+https://learn.microsoft.com/en-us/training/modules/intro-to-docker-containers/
+https://learn.microsoft.com/en-us/azure/container-registry/container-registry-intro
+https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli
+https://learn.microsoft.com/en-us/training/modules/run-docker-with-azure-container-instances/
+
+
+https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview
+https://learn.microsoft.com/en-us/training/modules/run-docker-with-azure-container-instances/
+https://learn.microsoft.com/en-us/azure/container-instances/container-instances-quickstart
+https://learn.microsoft.com/en-us/azure/container-instances/container-instances-container-groups
+
+https://learn.microsoft.com/en-us/azure/aks/what-is-aks
+https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-portal?tabs=azure-cli
+https://learn.microsoft.com/en-us/training/modules/intro-to-azure-kubernetes-service/
+
 
 
 ##################################################################
@@ -2822,6 +2860,74 @@ Diagnostic tools:
 
 
 
+##################################################################
 ## Backup and recovery
+##################################################################
 
+BCDR: Business Continuity Disaster Recovery
+
+
+RTO: Return Time Objective 
+    - how much time to recover 
+
+RPO: Return Point Objective 
+    - how much data lost, in measure of time,  since last backup
+        - 1 day, 2 hours, 15 min, etc.
+
+
+   [-------------------------XXX-------------------------]
+   | {------Data Lost------}  | {-------Down Time------} |
+  RPO                      Disaster                     RTO
+
+
+DR Methods:
+
+Backup   : copy of business critical data
+
+Cold Site: copy of critical infrastructure that needs preparation 
+            befor disaster recovery is complete
+
+Hot Site : copy of critical infrastructure and data that is ready 
+            to be swapped in as the production workload
+
+
+# Configuring Azure Backup
+
+Backup as a Service
+ -  requires Azure Recovery Services Vault
+    - create backup policy to backup data
+
+Supported workloads: 
+ -  Azure VM
+ -  On prem machines
+ -  SQL Server
+ -  SAP HANA
+
+ +------------------+           +------------------+
+ |                  |  backup   |     Recovery     |
+ |  Azure Workload  |---------> |     Services     |
+ |                  |   data    |      Vault       |
+ +------------------+           +------------------+
+         ^
+         |
+         |      +------------------+           
+         |      |  Azure Backup    |           
+         +------|      Backup      |           
+   (  start   ) |      Policy      |           
+   (backup job) +------------------+           
+
+
+
+
+console > vm > Backup + disaster recovery
+    - recovery services vault
+    - resource grup
+    - backup policy (daily, etc)
+
+
+NOTE: can resture VM from backup service.  
+Once a successful backup has been done, go to 
+console > VM > backup > Restore VM
+
+   -  Need to create storage account for "staging location "
 .
