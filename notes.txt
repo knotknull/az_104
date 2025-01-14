@@ -2930,4 +2930,119 @@ Once a successful backup has been done, go to
 console > VM > backup > Restore VM
 
    -  Need to create storage account for "staging location "
+
+# Azure Site Recovery
+
+Azure Site Recovery
+ - Disaster Recvoery Solution
+    automates disaster recovery
+
+ - Requires Azure Recovery Services vault
+  - Cross Zone
+  - Cross Regions
+
+
+  Source (East US)                         Target (East US2)
++---------------------+                   +--------------------+
+|                     |    cache data     |                    |                   
+| [Disks]  [ Cache ]  | ----------------->|    [Disk]          |                   
+|    |     [ Data ]   | copied to target  |       |            |                   
+|    |        |       |                   |       |            |                   
+|    +--------+       |                   |       |            |                   
+|    |                |                   |       |            |                   
+|  [ VM ]             |                   |    [ VM ]          |                   
+|                     |                   |                    |                   
++---------------------+                   +--------------------+                   
+
+
+console > Recovery Services vault > Site Recovery
+
+- Enable Replication 
+ - Resource Manager
+ - VM
+ - Enable Replication 
+    new: Target Resource Group, Target VNet, Cache Storage Acct, Replicat Managed Disk
+
+console > Recovery Services vault > Recovery Plan (Site Recovery)
+# This for recovering multiple VMs and other resources
+
+Replication Policy 
+ - defines frequency of snapshots and retention period of recovery points
+    app or crash consistent
+
+Recovery Plan
+ - Automate / run test failover events with protected items and pre/post scripts
+
+
+# Backup Reports
+
+Backup Report 
+- insight on Azure Backup 
+  - forcasts cloud storage consumption
+  - audtis of backup and restore events
+
+NOTE: Uses Log Anlytics as it's logging services
+
+Setup for Backup Report is essentiaally the Azure Backup with the 
+addition of Log Analytics and configurion of diagnostic settings on 
+Reovery Services Vault to generate backup info
+
+ +------------------+           +------------------+  (backup reports)   +-----------+
+ |                  |  backup   |     Recovery     | ------------------> |   Log     |
+ |  Azure Workload  |---------> |     Services     |  (diag settings)    | Analytics |
+ |                  |   data    |      Vault       |                     |           |
+ +------------------+           +------------------+                     +-----------+
+         ^
+         |
+         |      +------------------+           
+         |      |  Azure Backup    |           
+         +------|      Backup      |           
+   (  start   ) |      Policy      |           
+   (backup job) +------------------+           
+
+
+console > Recovery Services Vault > Manage > Backup Reports
+
+
+console > Recovery Services Vault > Diagnostic Setting
++ Add Diagnostic setting: 
+
+check off the following:
+Category details  logs
+
+- CoreAzureBackup
+- AddonAzureBackupJobs
+- AddonAzureBackupAlerts
+- AddonAzureBackupPolicy
+- AddonAzureBackupStorage
+- AddonAzureBackupProtectedInstance
+
+
+Destination 
+
+check - Sent to Log Analytics Workspace
+ - subscription:
+ - Log Analytics Workspace: (need to create before hand)
+ - Destinatin Table: Resource Specific
+
+Backup Reports: 
+ - View backup policies
+ - View backup jobs
+ - View backup items
+ - View summary of estate
+
+
+
+https://verify.acloud.guru/9DD162BFEB62
+
+
+
+
+
+
+
+
+
+
+
 .
