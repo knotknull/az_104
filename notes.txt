@@ -35,7 +35,7 @@ Azure Subscription:
     - interacts with Azure Resource Manager
 
 Azure Resource Manager:
-    - orchestration layer ofr managing Azure Cloud
+    - orchestration layer for managing Azure Cloud
     - uses REST API endpoints (Portal, CLI, PowerShell)
     NOTE: ARM interacts with Azure Resource Providers
 
@@ -192,7 +192,7 @@ NOTE: Global admins must be elevated to User Access Admin of root group
 Policy 
   - enforce compliance / enable auditing
   - prohibit resources 
-     - restrict acciss
+     - restrict access
   - allowed locations
      - geo compliance
 
@@ -200,7 +200,7 @@ Policy
     - Policy Definition
         - defines evaluation criteria for compliance
         - defines actions that take place
-            - audit / denay outside of compliance
+            - audit / deny outside of compliance
 
     - Policy Assignment
         - scope at where policy will be assigned: management group, subscription, resource group, resource 
