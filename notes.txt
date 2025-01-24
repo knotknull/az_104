@@ -378,7 +378,7 @@ Identity Integration:
  - Hybrid / SSO using Azure AD Connect and Azure AD Domain Services
 
 Enterprise Access:
- - Additiona security for apps and devices 
+ - Additional security for apps and devices 
     - on prem and in cloud
 
 
@@ -578,7 +578,7 @@ Azure AD (ME-ID) Roles
         - not subscriptions and resources
   - manage identity resources inside tenants: 
         - users / applications / devices 
-Azure AD RoOles; 
+Azure AD Roles; 
   Global Admin  : manage Azure AD resources ENTIRELY (i.e. Root)
   Billing Admin : perform billing tasks
   User Admin    : can manage users and groups
@@ -600,7 +600,7 @@ Azure AD RoOles;
         Azure AD (ME-ID) Roles
    +-------------------------------+
    | Global Admin / Billing Admin  |
-   | User Admin   / Hel Desk Admin |
+   | User Admin   / HelpDesk Admin |
    +-------------------------------+
                 |
                 |
@@ -987,10 +987,10 @@ Storage Account > Security + Networking:
 
 
 Can create shared access token against specific container or object in container: 
-Storage Accounts > Storae Account > Container > specific Container > settnings > shared access token 
+Storage Accounts > Storage Account > Container > specific Container > settnings > shared access token 
 
 
-Storage Accounts > Storae Account > Container > Access Policy
+Storage Accounts > Storage Account > Container > Access Policy
 
 Azure Defender for Storage: 
     - detects harmful attempts to access / expoit Blob contaners and File Shares
@@ -1330,7 +1330,7 @@ Direct service (sub-resource) mapping
 # Configuring Azure VNet Peering
 
 Default Connectivity:  
- - intra-network traffice and outbound internet traffic is allowed 
+ - intra-network traffic and outbound internet traffic is allowed 
    HOWEVER, Virtual Networks are isolated by default
 
 
@@ -2126,7 +2126,7 @@ Azure Load Balancer
 - backend pool (compute)
 - Health Probe
 - Rules 
-    - Load balancing or NAT rules for allowing  inbound / outboudn access
+    - Load balancing or NAT rules for allowing  inbound / outbound access
 - DNAT
     - Port forward inbound traffic to nodes in the backend pool
         - i.e. SSH
@@ -2849,7 +2849,7 @@ Diagnostic tools:
 - IP Flow Verify
     - test if traffic is allowed or denied, inbound / outbound from VMs
 - Next Hop
-    - determine how traffice flows from VM to Dest
+    - determine how traffic flows from VM to Dest
 - Effective Security Rules
     - determine security rules on a NIC
 - Packet Capture
@@ -2925,7 +2925,7 @@ console > vm > Backup + disaster recovery
     - backup policy (daily, etc)
 
 
-NOTE: can resture VM from backup service.  
+NOTE: can restore VM from backup service.  
 Once a successful backup has been done, go to 
 console > VM > backup > Restore VM
 
@@ -2934,7 +2934,7 @@ console > VM > backup > Restore VM
 # Azure Site Recovery
 
 Azure Site Recovery
- - Disaster Recvoery Solution
+ - Disaster Recovery Solution
     automates disaster recovery
 
  - Requires Azure Recovery Services vault
@@ -2961,7 +2961,7 @@ console > Recovery Services vault > Site Recovery
  - Resource Manager
  - VM
  - Enable Replication 
-    new: Target Resource Group, Target VNet, Cache Storage Acct, Replicat Managed Disk
+    new: Target Resource Group, Target VNet, Cache Storage Acct, Replicate Managed Disk
 
 console > Recovery Services vault > Recovery Plan (Site Recovery)
 # This for recovering multiple VMs and other resources
@@ -2978,8 +2978,8 @@ Recovery Plan
 
 Backup Report 
 - insight on Azure Backup 
-  - forcasts cloud storage consumption
-  - audtis of backup and restore events
+  - forecasts cloud storage consumption
+  - audits of backup and restore events
 
 NOTE: Uses Log Anlytics as it's logging services
 
@@ -3023,7 +3023,7 @@ Destination
 check - Sent to Log Analytics Workspace
  - subscription:
  - Log Analytics Workspace: (need to create before hand)
- - Destinatin Table: Resource Specific
+ - Destination Table: Resource Specific
 
 Backup Reports: 
  - View backup policies
