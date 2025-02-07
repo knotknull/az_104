@@ -1,0 +1,163 @@
+Test 1: 58.93
+
+
+Read Only lock on subscription means no updates to subscription 
+  - hence can't move a web app / App Service Plan to resource group under Read Only Lock subscription
+
+
+
+ Can move a resource (i.e. storage account) from a resource group to a 
+ destination resource group with a Delete Lock on it 
+  - can add resources to a resource group
+
+  Moving Web App Resources (Web App, App Service Plan) to another subscription / (resource group )
+     - metadata change
+     - Destination resource group  must NOT have any existing App Service resources
+            - Web Apps
+            - App Service plans
+            - Uploaded or imported TLS / SSL certs
+            - App Service env
+
+
+
+ACL for Azure File granular access for files and directories 
+  - ME Domain Services: can configure Windows ACL for fine-grained file and directory level perms          
+
+
+
+  Cloud Device Admin: 
+     - can enable, disable, deletee devices in ME ID and read Win 10 BitLocker keys in Azure portal
+
+
+Groups that are Dynamic Device cannot have devices added to them manually
+
+
+
+BASIC LOAD BALANCER 
+    - VMs need to be in Availability Set or VM Scale Set
+    - 300 instances
+
+
+STANDARD LOAD BALANCER 
+    - VMs to be in VM or VMSS in SINGLE VIRTUAL NETWORK
+    - 1000 instances
+
+
+Attach a NIC to a VM both must be in SAME REGION and VIRTUAL NETWORK and Subscription
+
+
+Resource Groups and Regions:  A Resource Group and all resources contained in can be in DIFFERENT regions.
+     HOWEVER, a VM and all it's components should be in same network and region
+
+
+Recovery Services Vault MUST BE IN SAME REGION AS DATA SOURCE
+
+Blob data CANNOT BE BACKED UP TO Recovery Service Vault  
+  -  Azure File Share == Recovery Service Vault
+
+
+
+ Device joins ME ID, user of the computer and Global Admin added as local Admin of device
+
+
+Changing CPU / Memory on Azure Container Instance, DO TWO THINGS: 
+ - Delete ACI
+ - Redeploy ARM ACI deployment template
+
+
+ACI Multi-container Group  (similar to AKS pods)
+    - collection of containers that run on same host machine
+       - shares hosts resources, local network and storage volumes
+
+    - Can be created ONLY on Linux
+
+    - Can include init containers
+        init containers: prepare environment for start of application (setup accounts, run scripts, etc)
+
+
+Enable WORM Storage via BLOB
+ - Enable blob versioning
+ - Enable version-level immutability
+
+
+Admin Password Reset ARE NOT ASKED Security Questions
+  - ANY Admin (Billing, Security, etc)
+
+Need to delete / recreate a VM when moving to other Regions, netowrks
+
+
+Restoring a backup on a Win 2016 server 
+- install Microsoft Azure Recovery Services Agent
+
+Creating Alerts: 
+ - create Log Analytics workspace
+ - set VM as data source
+ - create Alerts in Mazure Monigor
+
+
+Virutal Networks can be migrated to different Region
+ - Scale sets and Standard Load Balancers cannot be migrated
+
+Blob Versioning: 
+ - can be selecitvely applied to individual blobs in a container
+ - Blobs of different versons can have different access controls and lifecycles
+
+
+Web App to use ME ID for auth / auth 
+ - Register app in ME ID
+ - Set App Service auth settings
+ - Select an Identy Provider (Microsoft)
+
+
+
+
+Point to Site (P2S) VPN needs client certificate installed on every client computer 
+establishing connectivity Azure VNet 
+
+ME Auth allows connection to Auzre via ME creds.  ME only supports OpenVPN 
+and requires Azure VPN Client. 
+
+
+
+Record successful / failed connection attempts to VM: 
+  - create storage account
+  - eneable Azure Network Watcher flow logs
+  - ensure to register the Micorsoft.Insights resource provider ****
+      - required by NSG Flow Logging
+
+
+Azure Container Apps
+- managed env
+- run microservices / container apps on serverless platform
+    - event driven processing
+    - background processing jobs
+    - hosting background 
+
+
+Private Endpoint Connection need to be "approved" for connection to be established
+
+
+Create Monitor Rule 
+    1. Monitory > Alerts > Create Alert Rule
+    2. Set the alert rule scope
+    3. Set the alert rule conditions
+    4. Set the alert rule actions
+    5. Set the alert rule details
+    6. Create tags
+    7. Finished creating the Rule
+
+
+
+	                Ultra Disk 	    Premium SSD v2 	    Premium SSD 	    Standard SSD 	    Standard HDD
+Disk type 	            SSD 	        SSD 	            SSD 	            SSD 	            HDD
+Scenario 	          IO-intensive     Prod, perf         Prod,             web servers       backup 
+                    SAP HANA, DB     low latency        Performance       dev / etst        non-critical
+Max disk size 	    65 TB  	         65 TB  	          32  TB            32  TB            32  TB           
+Max throughput 	    10,000 MB/s 	   1,2 GB/s 	        900 MB/s 	        750 MB/s 	        500 MB/s
+Max IOPS 	          400,000 	       80,000 	          20,000 	          6,000 	          2,000, 3,000*
+Usable as OS Disk? 	No 	             No 	              Yes 	            Yes 	            Yes
+
+
+.
+
+

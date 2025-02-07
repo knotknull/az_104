@@ -1,0 +1,105 @@
+Test 2:  69.09
+
+
+
+Need to set Revery Services Vault in same region as source
+
+
+
+
+
+Steps for adding a custom domain to ME  ID:
+
+
+ - Add custom domain name to ME ID
+ - Add record to the public xyz.com DNS zone
+ - Verify the domain
+
+
+Standard Load Balancer serving 2 or more VM will be availbel 99.99%
+
+
+Analyzing costs for a subcription 
+> Subcription > Cost Analysis
+
+
+Data Collector Set: collect data for Performance counters
+
+
+Use New-AzRoleDefinition to commit a new role definition
+NOTE: Create*
+
+Azure Policy: governance at a resource level  (X group can only use Y resource) 
+
+
+
+Adding a NIC to a VM:   Must Stop VM First 
+
+
+Network Watcher Packet Capture: 
+    - capture to / from VM
+    - network stats
+    - info on: network intrustion 
+    - debug client-server comms
+
+
+Public IP Addresses are only allocated to started instances
+
+
+Steps for creating ACR: 
+- Create ACR
+- Choose pricing tier
+- Configure ACR
+- Setup Auth / Security
+- Access / Manage Container images
+
+
+Export a template for an Azure deployment 
+  Save-AzResourceGroupDeploymentTemplate
+
+
+NIC can have a Public and a Private IP address
+
+
+Virtual Network can have multiple address spaces i.e.:
+  10.0.*
+  192.168.*
+
+
+Azure App Service Deployment Slots:
+ - A slot will create a new web address for Web App Service
+ - Can swap between Prod and non-Prod for the slot
+
+REVIEW STORAGE ACCOUNT TYPES 
+
+
+GRS has 99.99999999999999 durability
+
+Availability sets have 99.95 SLA
+
+Owner can add user permissions
+Security Admin only has privilege with Security Center 
+
+
+
+Perms at the end 
+Microsoft.Authorizations/*/read
+
+
+Cannot Peer Virtual Networks with overlapping CIDR 
+i.e.  
+10.11.0.0/16 -   Cannot be peered tother
+10.11.0.0/17 -
+
+
+Peering is bidrectional when both networks are peered with each other
+
+Create Availability Sets for the number of tiers of you application  
+i.e. 2 for Web and DB
+
+
+Custom Domain:  Add TXT record to Domain Register
+CAA == Certificate Authorities
+SPF == Sender Policy Framework (mail)
+NS == authoritative name server within domain or DNS zone
+.
