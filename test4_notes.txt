@@ -1,0 +1,171 @@
+Test 4: 70.91
+
+
+
+
+
+
+Azure resources cannot be moved if there is a lock (Delete or ReadOnly) on:
+ -  resource itself 
+ -  Resoruce Group ( source or destination )
+
+
+NOTE:  Can move a resource that doesn't have a lock and FROM a RG that doesn't have a lock to 
+  an RG that has a DELETE LOCK.  The DELETE LOCk on an RG prevents DELETES but allows 
+  moves from other RGs to it
+
+
+
+A Global Admin of one tenant does not have authority over another tenant
+  - Same for User Admin
+NOTE: Directory == ME tenant
+
+
+
+Requirement for VPN between to VNets: 
+ - need gateway subnet for the VPN with /27 or /28 CIDR 
+
+
+Peering Connection only has to ensure VNets addresses to not overlap
+
+
+Default Netowrk Security Group Rules: 
+ - 65000  |  Allow VNet inbout
+ - 65001  |  Allow Load Balancer
+ - 65002  |  Allow Deny All
+
+
+
+
+Recovery Services Vault should be in Same Region as VMs
+
+Network Interface needs to be CREATED IN SAME REGION as Virtual Network
+
+
+
+BACKUP FACTS: 
+ - Azure SQL:  managed service, hence backups done for you
+ - Backup Policy Types: 
+   - Azure VM             --+  THESE ARE TWO SEPARATE TYPES OF BACKUP POLICIES
+   - Azure File Share     --+
+
+LOG ANALYTICS FACT: 
+ - Log Analytics workspace can be in ANY REGION.  
+   DOES NOT have to be in SAME REGION as Recovery Services Vault
+  - Security Events can be sent to Loga Analytics workspace
+
+
+ME Admin Units only created via:  
+  - Azure Portal
+  - Microsoft Graph / Powershell
+
+Azure Monitor Insights for Networks provides:
+  - Network Health and Metrics
+  - Connectivity
+  - Traffic
+      +-->  provides info about NSG, flow logs and Traffice Analytics
+
+
+Also Diagnostics toolkit: 
+  - Packet Capture
+  - VPN Troubleshhoot
+  - Connectivity Troubleshhoot
+  - Next Hop
+  - Traffic Filtering iusses
+
+MFA can be achieved with just an Office Phone or Mobile Phone
+
+Storage Account Live Migration only for LRS or GRS
+
+Azure Site Recovery:  used for DR and DOES NOT Directly address Backup
+
+Azure Container Apps:  microservices / container apps on Serverless
+
+Kubernetes:
+
+Each Pod  gets an IP from subnet:  Azure Continaer Network Interface (CNI)
+  - no additional "hop"
+
+Each Node gets an IP from subnet:  Kubenet   
+  - extra hop to go from K8s network to "outside" 
+
+
+ONLY BLOB offers Archive Storage 
+
+App Service Plan:
+ - .Net Core can run on Windows or Linux
+ - Can move an App to another App Service Plan  in the same
+        - Resource Group 
+        - Geographic Region
+
+
+Scale Container Apps, required:   
+  - GitHub Account
+  - Azure CLI
+
+
+Can move a Network Interface to a Resource Group in another Region.
+   - Can attach resources from multiple resource Groups
+NOTE: THe NIC has to be in the same region as the Virtual Network
+
+Location of a Resource DOES NOT CHANGE if moved to ANOTHER Resource Group
+
+Availabilty Set chan have up to 20 update domains **
+
+
+Availabilty Set                   Availability Zone
+Protect HW failures in DC         Protect for entire DC Failuer
+SLA 99.95%                        SLA 99.99%
+
+
+App Service Plan:
+  - Can have multiple Apps configured
+  - Can run Azure Functions
+  - i.e. Server Farm
+
+Policy assigned to a specific scope overrides Subscription Level Policies
+
+VM needs to be part of a VNet 
+
+
+Stopped (deallocted) resources still have resource count (i.e. CPUs) toward 
+Subscription limits.
+Quota is calculated based on total number of cores: 
+     allocated and deallocated
+NOTE: Delete VM to recover resources (CPU)
+
+
+
+Storage File Data SMB Share Reader     : read access to Azure Storage file shares for SMB
+Storage File Data SMB Share Contributor: read, write, delete access to Azure Storage file shares for SMB
+Storage File Data SMB Share Elevated Contributor: read, write and modify Windows ACLs in  Azure file shares for SMB
+
+Azure File supports id-based auth: 
+  - on-prem AD
+  - ME Domain Services
+  - ME Kerberos for hybrid user ids
+
+
+
+Azure Bastion requires: 
+  AzureBastionSubnet
+  CIDR of /26 or larger
+
+Recovery Services Vault: 
+  - used with Azure File Shares
+  - backup data for Azure Services (IaaS)
+  - supports System Center Data Protection Manager, Azure Backup, Windows Server
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
