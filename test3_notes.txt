@@ -1,0 +1,247 @@
+Test 3:  83.64
+
+
+
+Reiew Storage Account Types
+
+
+
+Storage Acct            Supported                  Redundancy                  
+Type                    Storage Services            Options                    Usage
+-----------------      -----------------        -----------------        -----------------        
+
+Standard                 Blob Storage             LRS, GRS, RA-GRS      Standard Storage Acct for blobs, 
+General                  (Data Lake Storage)      ZRS, GZRS, RA-GZRS    file shares, queues, tables
+Purpose v2               Queue Storage,                                 NOTE: NFS for Azure Files needs
+                         Table Storage,                                 Premium File Shares
+                         Azure Files
+--------------------------------------------------------------------------------------------------------------
+
+Premium                 Blob Storage              LRS, ZRS              Premium for Block and Append Blobs 
+Block Blobs             (Data Lake)                                     High Transaction rates, small objects, low latency
+--------------------------------------------------------------------------------------------------------------
+
+
+Premium                 Azure Files               LRS, ZRS              Premium for File Shares Only
+File Shares                                                             Enterprise / high performance
+                                                                        Storage Acct to support SMB or NFS
+--------------------------------------------------------------------------------------------------------------
+
+
+Premium                 Page blobs only           LRS, ZRS              Premium for Page Blobs
+Page Blobs
+--------------------------------------------------------------------------------------------------------------
+
+
+
+Limit access to a Storage Account : 
+  Storage Account > Networking > Selected Networks
+  - virtual networks
+  - firewall: IP Addr range
+
+Which storage service for Export Job
+
+
+
+
+
+What happens to resources when a policy denies them
+A policy that prevents resources  from being created WILL NOT AFFECT EXISTING RESOURCES
+ - however will not be able to make updates / changes to exisitng 'banned' resources 
+
+
+
+
+Install Exported certifiate for P2S connection.
+.pfx file w/ entire certificate chaing 
+
+
+
+4455 == SMB proto
+
+
+
+
+
+UNC path for storage account and a file share
+
+
+    storage_acct_name.file.core.windows.net\file_share
+    +---------------+ +-------------------+ +--------+
+           |                    |               |
+Name of Storage Count   Azure Service URI      File Share Name
+
+
+VMs can be auto registered to a virtual newtowrk with a DNS private zone.
+
+
+
+Azure App Service: Deployment Slot
+  - each slot a separate instance of web app
+  - each slot has separate hostname
+  - different versions to each slot
+  - 1 slot is Production slot
+  - other slots: integration, acceptance, capacity tests
+  - deploy by swapping Production slot with the new version slot
+    - slot swap is instantaneous
+    - slot hostnames are exchanged, immediately sending prod traffice to new version
+  - rollback by swapping back
+
+Slots are separate Azure resources
+
+App Service Plan: Slots / Tiers 
+    Tier            Max staging slots
+  Free                    0 
+  Shared                  0 
+  Basic                   0 
+  Standard                5
+  Premium                20
+  Isolated               20    
+
+
+Azure App Service hostnames:
+<app_name>-<random-hash>.<region>.azurewebsites.net
+
+
+Deploying a resource via Resource Manager Template: 
+
+az deployment group create 
+     -- name       
+     -- resource-group       
+     -- template-file  resource.json 
+
+Policies limit resource type creation 
+RBAC: Who has access to resources 
+  Security Principal (User, Group, Service Principal, Managed Identity)
+      + Assign a Role to the above 
+Role definition: colleciton of permissions 
+
+
+Azure Lock: 
+ - CanNotDelete     
+ - ReadOnly
+
+IP Flow Verify: 
+  - check if network rule is preventing packet to destination
+  - determines if packet denied by security group, name of rule
+
+Connection Monitor:
+  - determine connectivty between VM and external host
+  - monitors communication at regulat intervals  
+  - detects changes in reachability and latency
+  - can check current / historic al network topoligy between source and desitination endpoints
+
+
+Availability Set  has SLA of 99.95% VM updatime
+Availability Zone has SLA of 99.99% VM updatime
+
+
+
+Azure Blob Types: 
+
+Block Blobs
+  - composed of blocks.  Ideal for text or binary files, uploading large files efficiently
+
+Append Blobs
+  - composed of blocks optimized of append ops.  Ideal for logging
+
+Page Blobs
+  - collection of 512-byte pages, frequent random read/write. up to 8 TB
+    PAGE BLOBS foundation of Azure IaaS Disks
+
+
+Azure Backup Center / Vault 
+  - can create snapshots, snapshot life cycle 
+  - Agentless backup 
+  - Backup Policy
+
+
+Move a VM with Azure Disk Encryuption integrated with Key Vault
+  - can be moved to another Resource Group in deallocated state
+
+Moving  to another subscription, need to disable encryption
+
+az vm encryption disable --resource-group demoRG --name myVm1 --volume-type all
+
+az vm deallocate --name vmname  --rsource-group oldRG                 # Stop the VM
+az group create  --name newR    --location newRegion                  # create new RG in new Region
+az vm create  --name new_vm     --resource-group new_RG  --location newRegion --source oldRG     # Move VM to new RG in new Region
+az vm wait   --name vmname       --resource-group oldRG  --deleted    # Move VM to new RG in new Region
+
+
+
+
+Storage Account Contributor  :  Manage Storage Accounts, access to account ky
+
+Storage Blob Data Contributor:  Read, write, delete, Azure Storage containers and blobs
+
+Storage Blob Data Owner      :  Full access to Azure Storage blob containers and Data includng POSIC access control
+
+
+Azure Export to move data OUT of Azure Storage Account 
+  -  Uses Azure Blob Storage
+
+
+Adding Data Disk to existing VM
+
+New-AzDiskConfig
+New-AzDisk
+Get-AzVM        # VM Exists already
+Add-AzVMDataDisk
+Update-AzVM
+
+
+Update Disk Size
+
+Get-AzVM        # VM Exists already
+Stop-AzVM       # Stop before resizing
+$disk=Get-AzDisk  # Get a reference to OS or Data Disk
+i.e. 
+      $disk= Get-AzDisk -ResourceGroupName $azResourceGroup -DiskName $vm.StorageProfile.OsDisk.Name     ## OS 
+      $disk= Get-AzDisk -ResourceGroupName $azResourceGroup -DiskName $vm.StorageProfile.DataDisks[0].Name   # First Data Disk
+
+$disk.DiskSizeGB = 250    # Update the size
+
+Update-AzDisk             # Update the Disk Image 
+      Update-AzDisk -ResourceGroupName $azResourceGroup -Disk $disk -DiskName $disk.Name
+
+Start-AzVM      # Restart the VM
+
+
+
+formate of prefixMatch is container/folder:   demo/data
+
+storage account: whizlabstore
+container named demo, fiale named audio.log 
+
+what is URL
+
+ - https://whizlabsotre.blobl.core.windows.net/demo/audio.log
+
+
+https://[storageAccount].blob.core.windows.net/[container_name]/[object_name]
+
+
+
+
+granular Access for a limited time
+  - Shared Access Signature
+
+
+Azlerts in Azure Monitor for Activity Logs
+
+Service Health Service:  used to inform health of Azure-based Services
+
+
+VPN uses Gateway Subnet
+  - Gateway Subnet with CIDR /27 or /28
+
+
+If you specify an outbound security rule to any address over port 80, for example, 
+it's not necessary to specify an inbound security rule for the response to the outbound traffic. 
+You only need to specify an inbound security rule if communication is initiated externally. 
+The opposite is also true. If inbound traffic is allowed over a port, it's not necessary to specify an 
+outbound security rule to respond to traffic over the port.
+
+
+.
