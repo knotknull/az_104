@@ -1,0 +1,162 @@
+Test 5: 56.36
+
+
+
+
+
+
+Azure Policy cannot be used for ME (identity layer) only Azure Resources
+NOTE: ME ID has a Group Naming Policy for group naming conventions
+   automatically apply prefix / suffix based on department
+
+
+Group based licensing can have specific service plans enabled / disabled
+
+Azure Lighthouse: for service providers to manage multiple customer tenants and subscriptions.
+
+
+
+ARM Template: ensuring depedent resources are created first: 
+  - dependsOn property of VM to reference storage account
+
+
+
+BICEP deployment: 
+ - parameters are configurage values for deployment
+ - variables are computed or static values within file.  Not configurable during deployment
+
+
+
+
+Convert an ARM template to a Bicep file: az bicep decompile     (DECOMPILES TO BICEP)
+
+Convert a Bicep file to an ARM template: az bicep build         (BUILDS AN ARM)
+
+
+
+To enable disk encryption automatically, Key Vault and Encryption Key nned to be configured in Deployment Template
+  - encrypts OS Disk on creation
+
+
+When moving VM to a new RG, dependent resources (i.e. VNet, NSG) must be moved prior or moved SIMULTANEOUSLY
+   - VNet and NSG are tightly bound to VM
+
+
+Resize a VM:  
+  - Stop VM
+  - Resize it (different class)
+  - Start
+
+
+
+10 Machines into an Availability Set: 
+  - distribute across fault and update domains ???
+  - what is max number of fault domains ??
+  Answer == 3
+
+ NOTE: Availability Sets support 3 Fault Domains per Region  ** 
+
+
+Azure Container Apps can use Custom Scaling Rules 
+  i.e. metrics for queue on depth
+
+
+
+
+Scaling Up or Down an Azure App Service Plan DOES NOT REQUIRE RECREATION
+  - can encurr different pricing and services 
+
+
+When swapping deployment slots, settings that can "tick" with slot are:
+ - Connection Strings (i.e. QA DB vs. Prod DB)
+ - App Settings (Prod IP Addr vs Dev IP Addr)
+ 
+ This is called "slot settings" 
+
+
+Steps for setting up a custom domain 
+1. portal > Custom Domaind  
+2. add custom domain
+3. TXT record to verify domain ownership
+4. Add CNAME or A Record
+5. Validate settings
+6. Add TLS / SSL Certificate to bind custom domain
+
+
+Stored Access Policy for blob 
+  - Set Container ACL: set stored access policies anc cofigurs access rules: 
+    - start / expire time, perms 
+
+  - Each Stored Access Policy requires unique signed identifier up to 64 chars long.  
+      - Identifier links policy to Shared Access Signatures (SAS)
+
+  - Stored Access Policy <-->  Unique Identifier <-->  Shared Access Signature
+      - multiple SAS can link to same policy
+
+
+
+
+Azure Storage supports CROSS-REGION access to Azure Key Vault for CMK.
+NOTE: Azure Key Vault can have a Firewall Enabled !!
+
+
+
+
+azcopy sync:   ensures incremental uploads by comparing source / destination.  Minimizes bandwidth usage
+
+
+File Share deleted, only way to recover is to restore ENTIRE Storage Account 
+
+
+Virtual Network Peering
+
+VNetProd                        VNetDev                     OnPrem
++-------------+                +-------------+             +-------------+
+|             | <-- peered --> |             | <-- VPN --> |             |
+|             |                |             |    Gatewy   |             |
+|             |                |             |             |             |
++-------------+                +-------------+             +-------------+
+[x]     |                                                         ^
+Use     +---------------------------------------------------------+
+Remote Gateway
+
+The Use Remote Gateway setting allows a Peered network to use 
+a VPN Gateway of the VNet it is peering to 
+
+
+
+Azure Bastion Service requires access:
+ - Reader access on Bastion Resource
+ - Reader access on the VM
+NOTE: Azure Bastion does not require inboud rules for 22 or 3389
+
+
+
+With Service Endpoint setup to a Storage Account STILL NEED RBAC permissions to access
+
+
+Load Balancer without Health Probes will consider all backend VMS as unhealthy and stop forwarding traffic 
+
+Connection Monitor allows you to analyze connectivity across Azure Regions and between On-prem and Azure.
+
+
+
+Kusto (KQL) used in:
+ - Log Analytics
+ - Azure Dashboards 
+ - Log Search Alert Rules
+
+
+
+
+NSG flow logs and IP Flow Verify: 
+ - can check filtering issues
+ - can check NSG issues
+
+
+
+
+
+
+
+.
