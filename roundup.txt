@@ -1,0 +1,848 @@
+Round UP
+
+
+###############################################################
+# Policy / RBAC / Admin
+###############################################################
+
+
+Use New-AzRoleDefinition to commit a new role definition
+NOTE: Create*
+
+Azure Policy: governance at a resource level  (X group can only use Y resource) 
+
+Perms at the end 
+Microsoft.Authorizations/*/read
+
+Admin Password Reset ARE NOT ASKED Security Questions
+  - ANY Admin (Billing, Security, etc)
+
+Owner can add user permissions
+Security Admin only has privilege with Security Center 
+
+
+What happens to resources when a policy denies them
+A policy that prevents resources  from being created WILL NOT AFFECT EXISTING RESOURCES
+ - however will not be able to make updates / changes to exisitng 'banned' resources 
+
+
+Policies limit resource type creation 
+RBAC: Who has access to resources 
+  Security Principal (User, Group, Service Principal, Managed Identity)
+      + Assign a Role to the above 
+Role definition: colleciton of permissions 
+
+Azure Lock: 
+ - CanNotDelete     
+ - ReadOnly
+
+A Global Admin of one tenant does not have authority over another tenant
+  - Same for User Admin
+NOTE: Directory == ME tenant
+
+ME Admin Units only created via:  
+  - Azure Portal
+  - Microsoft Graph / Powershell
+
+Policy assigned to a specific scope overrides Subscription Level Policies
+
+Azure Policy cannot be used for ME (identity layer) only Azure Resources
+NOTE: ME ID has a Group Naming Policy for group naming conventions
+   automatically apply prefix / suffix based on department
+
+built-in Allowed locations policy can limit where resources are created 
+    - deployIfNotExists, existing resources outside of allowed locations can be remediated automatically
+
+Modify effect on Policy allows for existing resources to be in compliance: 
+  i.e. ensuring BusinessUnit tag on all new and existing resources
+
+Azure Logic Apps can interface with Azure Services via REST API and can be automated
+
+Deny assignment on Storage Account will override RBAC 
+
+ME User has Job Info section
+
+ME ID 2: Risk based conditional access policies 
+
+B2B Collaboration:  convert external user to an internal user 
+
+Once an alert is created, CAN NOT CHANGE : 
+    - Alert Type
+    - Alert Name
+
+ARM Alert Template:  Email addresses should be array of strings ?!?
+
+###############################################################
+# Subcription
+###############################################################
+
+Read Only lock on subscription means no updates to subscription 
+  - hence can't move a web app / App Service Plan to resource group under Read Only Lock subscription
+
+Analyzing costs for a subcription 
+> Subcription > Cost Analysis
+
+Stopped (deallocted) resources still have resource count (i.e. CPUs) 
+toward Subscription limits.
+Quota is calculated based on total number of cores: 
+     allocated and deallocated
+NOTE: Delete VM to recover resources (CPU)
+
+Group based licensing can have specific service plans enabled / disabled
+
+Alert (metric or otherwise) at the subscription level will be applied to any new resources to subscription
+
+Budget in Azure cost management can send notifications on upcoming threshold
+
+###############################################################
+# Move Resources
+###############################################################
+
+ Can move a resource (i.e. storage account) from a resource group to a 
+ destination resource group with a Delete Lock on it 
+  - can add resources to a resource group
+
+  Moving Web App Resources (Web App, App Service Plan) to another subscription / (resource group )
+     - metadata change
+     - Destination resource group  must NOT have any existing App Service resources
+            - Web Apps
+            - App Service plans
+            - Uploaded or imported TLS / SSL certs
+            - App Service env
+
+Can move a Network Interface to a Resource Group in another Region.
+   - Can attach resources from multiple resource Groups
+NOTE: THe NIC has to be in the same region as the Virtual Network
+
+
+###############################################################
+# ME - ID / Azure AD / DNS
+###############################################################
+
+ACL for Azure File granular access for files and directories 
+  - ME Domain Services: can configure Windows ACL for fine-grained file and directory level perms          
+
+  Cloud Device Admin: 
+     - can enable, disable, deletee devices in ME ID and read Win 10 BitLocker keys in Azure portal
+
+Groups that are Dynamic Device cannot have devices added to them manually
+ 
+ Device joins ME ID, user of the computer and Global Admin added as local Admin of device
+
+
+ME Auth allows connection to Auzre via ME creds.  ME only supports OpenVPN 
+and requires Azure VPN Client. 
+
+Steps for adding a custom domain to ME  ID:
+ - Add custom domain name to ME ID
+ - Add record to the public xyz.com DNS zone
+ - Verify the domain
+
+Steps for setting up a custom domain 
+1. portal > Custom Domaind  
+2. add custom domain
+3. TXT record to verify domain ownership
+4. Add CNAME or A Record
+5. Validate settings
+6. Add TLS / SSL Certificate to bind custom domain
+
+Custom Domain:  Add TXT record to Domain Register
+CAA == Certificate Authorities
+SPF == Sender Policy Framework (mail)
+NS == authoritative name server within domain or DNS zone
+
+
+MFA can be achieved with just an Office Phone or Mobile Phone
+
+Azure Policy cannot be used for ME (identity layer) only Azure Resources
+NOTE: ME ID has a Group Naming Policy for group naming conventions
+   automatically apply prefix / suffix based on department
+
+Azure Lighthouse: for service providers to manage multiple customer tenants and subscriptions.
+
+DNS Private Zone  w/ VNet Linking: 
+    - Manage DNS records for private domains across regions / multiple VNets
+
+Private DNS zone provides resolution for pirvate end points
+
+###############################################################
+# Load Balancer
+###############################################################
+
+BASIC LOAD BALANCER 
+    - VMs need to be in Availability Set or VM Scale Set
+    - 300 instances
+
+STANDARD LOAD BALANCER 
+    - VMs to be in VM or VMSS in SINGLE VIRTUAL NETWORK
+    - 1000 instances
+
+Standard Load Balancer serving 2 or more VM will be availble 99.99%
+
+Load Balancer without Health Probes will consider all backend VMS as unhealthy and stop forwarding traffic 
+
+###############################################################
+# VM / NIC
+###############################################################
+
+Attach a NIC to a VM both must be in SAME REGION and VIRTUAL NETWORK and Subscription
+
+Need to delete / recreate a VM when moving to other Regions, netowrks
+
+Adding a NIC to a VM:   Must Stop VM First 
+
+Public IP Addresses are only allocated to started instances
+
+NIC can have a Public and a Private IP address
+
+Create Availability Sets for the number of tiers of you application  
+i.e. 2 for Web and DB
+
+
+Fault Domain :  3 
+Update Domain: 20 
+Availabilty Set chan have up to 20 update domains **
+
+VMs can be auto registered to a virtual newtowrk with a DNS private zone.
+
+Availability Set  has SLA of 99.95% VM updatime    ## Protect HW Failures in a Data Center
+Availability Zone has SLA of 99.99% VM updatime    ## Protect for entire Data Center failure
+
+Move a VM with Azure Disk Encryuption integrated with Key Vault
+  - can be moved to another Resource Group in deallocated state
+
+Moving  to another subscription, need to disable encryption
+
+az vm encryption disable --resource-group demoRG --name myVm1 --volume-type all
+
+az vm deallocate --name vmname  --rsource-group oldRG                 # Stop the VM
+az group create  --name newR    --location newRegion                  # create new RG in new Region
+az vm create  --name new_vm     --resource-group new_RG  --location newRegion --source oldRG     # Move VM to new RG in new Region
+az vm wait   --name vmname       --resource-group oldRG  --deleted    # Move VM to new RG in new Region
+
+
+Adding Data Disk to existing VM
+
+New-AzDiskConfig
+New-AzDisk
+Get-AzVM        # VM Exists already
+Add-AzVMDataDisk
+Update-AzVM
+
+
+Update Disk Size
+
+Get-AzVM        # VM Exists already
+Stop-AzVM       # Stop before resizing
+$disk=Get-AzDisk  # Get a reference to OS or Data Disk
+i.e. 
+      $disk= Get-AzDisk -ResourceGroupName $azResourceGroup -DiskName $vm.StorageProfile.OsDisk.Name     ## OS 
+      $disk= Get-AzDisk -ResourceGroupName $azResourceGroup -DiskName $vm.StorageProfile.DataDisks[0].Name   # First Data Disk
+
+$disk.DiskSizeGB = 250    # Update the size
+
+Update-AzDisk             # Update the Disk Image 
+      Update-AzDisk -ResourceGroupName $azResourceGroup -Disk $disk -DiskName $disk.Name
+
+Start-AzVM      # Restart the VM
+
+VM needs to be part of a VNet 
+  - Can't have a VM without a VNet 
+
+When moving VM to a new RG, dependent resources (i.e. VNet, NSG) must be moved prior or moved SIMULTANEOUSLY
+   - VNet and NSG are tightly bound to VM
+
+Resize a VM:  
+  - Stop VM
+  - Resize it (different class)
+  - Start
+
+Proximity Placement Group: reduces latency between co-hosted VMs in the same zone
+
+
+VMSS Extensions + Applications: VM Scale Sets settings for Env Vars and init scripts  
+    - separates config from app / VM image
+
+###############################################################
+# Resource Groups
+###############################################################
+
+Resource Groups and Regions:  A Resource Group and all resources contained in can be in DIFFERENT regions.
+     HOWEVER, a VM and all it's components should be in same network and region
+
+Azure resources cannot be moved if there is a lock (Delete or ReadOnly) on:
+ -  resource itself 
+ -  Resoruce Group ( source or destination )
+
+
+NOTE:  Can move a resource that doesn't have a lock and FROM a RG that doesn't have a lock to 
+  an RG that has a DELETE LOCK.  The DELETE LOCk on an RG prevents DELETES but allows 
+  moves from other RGs to it
+
+Location of a Resource DOES NOT CHANGE if moved to ANOTHER Resource Group
+
+
+Can move a Network Interface to a Resource Group in another Region.
+   - Can attach resources from multiple resource Groups
+NOTE: THe NIC has to be in the same region as the Virtual Network
+
+VM Scale Set w/ Azure Desired State Config (DSC)
+    - DSC used to setup production software on VM (i.e. IIS)
+
+
+###############################################################
+# Backup / Recovery Services
+###############################################################
+
+Recovery Services Vault MUST BE IN SAME REGION AS DATA SOURCE
+
+Blob data CANNOT BE BACKED UP TO Recovery Service Vault  
+  -  Azure File Share == Recovery Service Vault
+
+Restoring a backup on a Win 2016 server 
+- install Microsoft Azure Recovery Services Agent
+
+Need to set Revery Services Vault in same region as source
+
+Azure Backup Center / Vault 
+  - can create snapshots, snapshot life cycle 
+  - Agentless backup 
+  - Backup Policy
+
+BACKUP FACTS: 
+ - Azure SQL:  managed service, hence backups done for you
+ - Backup Policy Types: 
+   - Azure VM             --+  THESE ARE TWO SEPARATE TYPES OF BACKUP POLICIES
+   - Azure File Share     --+
+
+Azure Site Recovery:  used for DR and DOES NOT Directly address Backup
+
+Recovery Services Vault: 
+  - used with Azure File Shares
+  - backup data for Azure Services (IaaS)
+  - supports System Center Data Protection Manager, Azure Backup, Windows Server
+
+To initiate a failover:
+    Recovery Services Vault > Select recouce > click "Failover"
+
+Recovery Vault                      Backup Vault
+VM                                  Azure DB for PostgreSQL
+SQL in Azure VM                     Azure  Blobs
+Azure Files                         Azure Disks
+SAP HANA in VM
+Azure Backup Server/Agent
+DPM
+
+###############################################################
+# Container / Container App / AKS 
+###############################################################
+
+Changing CPU / Memory on Azure Container Instance, DO TWO THINGS: 
+ - Delete ACI
+ - Redeploy ARM ACI deployment template
+
+ACI Multi-container Group  (similar to AKS pods)
+    - collection of containers that run on same host machine
+       - shares hosts resources, local network and storage volumes
+
+    - Can be created ONLY on Linux
+
+    - Can include init containers
+        init containers: prepare environment for start of application (setup accounts, run scripts, etc)
+
+Azure Container Apps
+- managed env
+- run microservices / container apps on serverless platform
+    - event driven processing
+    - background processing jobs
+    - hosting background 
+
+Steps for creating ACR: 
+- Create ACR
+- Choose pricing tier
+- Configure ACR
+- Setup Auth / Security
+- Access / Manage Container images
+
+
+Azure Container Apps:  microservices / container apps on Serverless
+
+Kubernetes:
+
+Each Pod  gets an IP from subnet:  Azure Continaer Network Interface (CNI)
+  - no additional "hop"
+
+Each Node gets an IP from subnet:  Kubenet   
+  - extra hop to go from K8s network to "outside" 
+
+
+Scale Container Apps, required:   
+  - GitHub Account
+  - Azure CLI
+
+Azure Container Apps can use Custom Scaling Rules 
+  i.e. metrics for queue on depth
+
+Microsoft Defender for Containers: automatically scans images in ACR
+
+Azure Traffic Manager: DNS-based traffic routing that can distribute requests across multiple 
+    ACI deployments in various regions
+
+Wildcard SSL certificate can handle multiple subdomains with one certificate 
+    i.e. certificate for *.example.com can secure app.example.com, dev.example.com, etc.
+    - NOTE: App Services supports binding wildcard SSL certs to custom domains.
+
+###############################################################
+# App Service / Plan
+###############################################################
+
+Azure App Service Deployment Slots:
+ - A slot will create a new web address for Web App Service
+ - Can swap between Prod and non-Prod for the slot
+
+
+Azure App Service: Deployment Slot
+  - each slot a separate instance of web app
+  - each slot has separate hostname
+  - different versions to each slot
+  - 1 slot is Production slot
+  - other slots: integration, acceptance, capacity tests
+  - deploy by swapping Production slot with the new version slot
+    - slot swap is instantaneous
+    - slot hostnames are exchanged, immediately sending prod traffice to new version
+  - rollback by swapping back
+
+When swapping deployment slots, settings that can "stick" with slot are:
+ - Connection Strings (i.e. QA DB vs. Prod DB)
+ - App Settings (Prod IP Addr vs Dev IP Addr)
+ 
+ This is called "slot settings" 
+
+Slots are separate Azure resources
+
+App Service Plan: Slots / Tiers 
+    Tier            Max staging slots
+  Free                    0 
+  Shared                  0 
+  Basic                   0 
+  Standard                5
+  Premium                20
+  Isolated               20    
+
+Auto-swap allows for swapping Stage slot with Prouction slot once deploymnet is complete.
+
+
+Azure App Service hostnames:
+<app_name>-<random-hash>.<region>.azurewebsites.net
+
+
+App Service Plan:
+ - .Net Core can run on Windows or Linux
+ - Can move an App to another App Service Plan  in the same
+        - Resource Group 
+        - Geographic Region
+ - Can have multiple Apps configured
+ - Can run Azure Functions
+ - i.e. Server Farm
+
+
+Scaling Up or Down an Azure App Service Plan DOES NOT REQUIRE RECREATION
+  - can encur different pricing and services 
+
+###############################################################
+# Storage / File / Blob
+###############################################################
+
+ONLY BLOB offers Archive Storage 
+
+Enable WORM Storage via BLOB
+ - Enable blob versioning
+ - Enable version-level immutability
+
+Blob Versioning: 
+ - can be selecitvely applied to individual blobs in a container
+ - Blobs of different versons can have different access controls and lifecycles
+
+GRS has 99.99999999999999 durability
+
+Storage Account Types:
+
+Storage Acct            Supported                  Redundancy                  
+Type                    Storage Services            Options                    Usage
+-----------------      -----------------        -----------------        -----------------        
+
+Standard                 Blob Storage             LRS, GRS, RA-GRS      Standard Storage Acct for blobs, 
+General                  (Data Lake Storage)      ZRS, GZRS, RA-GZRS    file shares, queues, tables
+Purpose v2               Queue Storage,                                 NOTE: NFS for Azure Files needs
+                         Table Storage,                                 Premium File Shares
+                         Azure Files
+--------------------------------------------------------------------------------------------------------------
+
+Premium                 Blob Storage              LRS, ZRS              Premium for Block and Append Blobs 
+Block Blobs             (Data Lake)                                     High Transaction rates, small objects, low latency
+--------------------------------------------------------------------------------------------------------------
+
+Premium                 Azure Files               LRS, ZRS              Premium for File Shares Only
+File Shares                                                             Enterprise / high performance
+                                                                        Storage Acct to support SMB or NFS
+--------------------------------------------------------------------------------------------------------------
+
+Premium                 Page blobs only           LRS, ZRS              Premium for Page Blobs
+Page Blobs
+--------------------------------------------------------------------------------------------------------------
+
+Limit access to a Storage Account : 
+  Storage Account > Networking > Selected Networks
+  - virtual networks
+  - firewall: IP Addr range
+
+
+Which storage service for Export Job
+
+
+UNC path for storage account and a file share
+    storage_acct_name.file.core.windows.net\file_share
+    +---------------+ +-------------------+ +--------+
+           |                    |               |
+Name of Storage Count   Azure Service URI      File Share Name
+
+Azure Blob Types: 
+
+Block Blobs
+  - composed of blocks.  Ideal for text or binary files, uploading large files efficiently
+
+Append Blobs
+  - composed of blocks optimized of append ops.  Ideal for logging
+
+Page Blobs
+  - collection of 512-byte pages, frequent random read/write. up to 8 TB
+    PAGE BLOBS foundation of Azure IaaS Disks
+
+Storage Account Contributor  :  Manage Storage Accounts, access to account ky
+
+Storage Blob Data Contributor:  Read, write, delete, Azure Storage containers and blobs
+
+Storage Blob Data Owner      :  Full access to Azure Storage blob containers and Data includng POSIC access control
+
+
+Azure Export to move data OUT of Azure Storage Account 
+  -  Uses Azure Blob Storage
+
+
+format of prefixMatch is container/folder:   demo/data
+storage account: whizlabstore
+container named demo, fiale named audio.log 
+
+what is URL
+
+ - https://whizlabsotre.blob.core.windows.net/demo/audio.log
+
+
+https://[storageAccount].blob.core.windows.net/[container_name]/[object_name]
+
+
+granular Access for a limited time
+  - Shared Access Signature
+
+Storage Account Live Migration only for LRS or GRS
+
+Storage File Data SMB Share Reader     : read access to Azure Storage file shares for SMB
+Storage File Data SMB Share Contributor: read, write, delete access to Azure Storage file shares for SMB
+Storage File Data SMB Share Elevated Contributor: read, write and modify Windows ACLs in  Azure file shares for SMB
+
+Azure File supports id-based auth: 
+  - on-prem AD
+  - ME Domain Services
+  - ME Kerberos for hybrid user ids
+
+With Service Endpoint setup to a Storage Account STILL NEED RBAC permissions to access
+
+
+Stored Access Policy for blob 
+  - Set Container ACL: set stored access policies and cofigure access rules: 
+    - start / expire time, perms 
+
+  - Each Stored Access Policy requires unique signed identifier up to 64 chars long.  
+      - Identifier links policy to Shared Access Signatures (SAS)
+
+  - Stored Access Policy <-->  Unique Identifier <-->  Shared Access Signature
+      - multiple SAS can link to same policy
+
+
+Azure Storage supports CROSS-REGION access to Azure Key Vault for CMK.
+NOTE: Azure Key Vault can have a Firewall Enabled !!
+
+azcopy sync:   ensures incremental uploads by comparing source / destination.  Minimizes bandwidth usage
+
+File Share deleted, only way to recover is to restore ENTIRE Storage Account 
+
+Blob Storage Lifecycle policy is defined by JSON policy to transition between storage tiers.
+
+List Blob Versions API to retrieve prior version
+
+Max Retention for Soft Delete:  365 days
+
+Before deleting a File Share, all snapshots must be deleted first
+
+Azure Storage has Firewalls
+
+Storage Explorer available on Win, macOS, Linux
+
+Wind ACL for File / Directory Level Perms
+
+Authenticating to Azure FIle Sahres AD/ME Domain Services
+
+ME ID users / groups: Share Level Perms
+
+Azure Storage supports TLS: 1.0, 1.1, 1.2
+
+If you move a Subscription / Resource Group / Storage Account from one ME Tenant to Another
+    - customer managed keys may not work if managed id for storage account is not moved
+
+CMK can work on Blobs and files.    
+
+###############################################################
+# Monitor / Alerts / Log Analytics / Insights
+###############################################################
+
+Creating Alerts: 
+ - create Log Analytics workspace
+ - set VM as data source
+ - create Alerts in Mazure Monigor
+
+Data Collector Set: collect data for Performance counters
+
+
+Network Watcher Packet Capture: 
+    - capture to / from VM
+    - network stats
+    - info on: network intrustion 
+    - debug client-server comms
+
+Netowrk Watcher needs to be "Enabled" for Azure Region
+
+IP Flow Verify: 
+  - check if network rule is preventing packet to destination
+  - determines if packet denied by security group, name of rule
+
+Connection Monitor:
+  - determine connectivty between VM and external host
+  - monitors communication at regulat intervals  
+  - detects changes in reachability and latency
+  - can check current / historic al network topoligy between source and desitination endpoints
+
+Connection Monitor allows you to analyze connectivity across Azure Regions and between On-prem and Azure.
+
+Azlerts in Azure Monitor for Activity Logs
+
+Service Health Service:  used to inform health of Azure-based Services
+
+LOG ANALYTICS FACT: 
+ - Log Analytics workspace can be in ANY REGION.  
+   DOES NOT have to be in SAME REGION as Recovery Services Vault
+ - Security Events can be sent to Loga Analytics workspace
+
+Azure Monitor Insights for Networks provides:
+  - Network Health and Metrics
+  - Connectivity
+  - Traffic
+      +-->  provides info about NSG, flow logs and Traffice Analytics
+
+
+Also Diagnostics toolkit: 
+  - Packet Capture
+  - VPN Troubleshhoot
+  - Connectivity Troubleshhoot
+  - Next Hop
+  - Traffic Filtering iusses
+
+
+NSG flow logs and IP Flow Verify: 
+ - can check filtering issues
+ - can check NSG issues
+
+Kusto (KQL) used in:
+ - Log Analytics
+ - Azure Dashboards 
+ - Log Search Alert Rules
+
+VM Insights requirements: 
+ - Log Analytics Workspace
+ - Dependenyc Agent on VM
+ - connection from VM to 169.254.169.254 (metadata service)
+
+Azure Advisor samples / aggregates metrics for VMSS EVERY 30 seconds, aggs 1 min  
+
+###############################################################
+# VNets / Subnets / NSG / Gateway / VPN Gateway 
+###############################################################
+Virutal Networks can be migrated to different Region
+ - Scale sets and Standard Load Balancers cannot be migrated
+
+
+Web App to use ME ID for auth / auth 
+ - Register app in ME ID
+ - Set App Service auth settings
+ - Select an Identy Provider (Microsoft)
+
+Point to Site (P2S) VPN needs client certificate installed on every client computer 
+establishing connectivity Azure VNet 
+
+
+Private Endpoint Connection need to be "approved" for connection to be established
+
+Virtual Network can have multiple address spaces i.e.:
+  10.0.*
+  192.168.*
+
+Cannot Peer Virtual Networks with overlapping CIDR i.e.  
+10.11.0.0/16 -   Cannot be peered tother
+10.11.0.0/17 -
+
+Peering is bidrectional when both networks are peered with each other
+
+Install Exported certifiate for P2S connection.
+.pfx file w/ entire certificate chaing 
+
+VPN uses Gateway Subnet
+  - Gateway Subnet with CIDR /27 or /28
+
+445 == SMB port
+2049 == NFS Port 
+
+NSG:
+If you specify an outbound security rule to any address over port 80, for example, 
+it's not necessary to specify an inbound security rule for the response to the outbound traffic. 
+You only need to specify an inbound security rule if communication is initiated externally (i.e. 80, 443). 
+The opposite is also true. If inbound traffic is allowed over a port, it's not necessary to specify an 
+outbound security rule to respond to traffic over the port.
+
+
+Requirement for VPN between to VNets: 
+ - need gateway subnet for the VPN with /27 or /28 CIDR 
+ 
+
+Peering Connection only has to ensure VNets addresses to not overlap
+
+Default Netowrk Security Group Rules: 
+ - 65000  |  Allow VNet inbout
+ - 65001  |  Allow Load Balancer
+ - 65002  |  Allow Deny All
+
+Network Interface needs to be CREATED IN SAME REGION as Virtual Network
+
+Azure Bastion requires: 
+  - subnet named AzureBastionSubnet
+  - CIDR of /26 or larger
+
+With Service Endpoint setup to a Storage Account STILL NEED RBAC permissions to access
+
+Virtual Network Peering:
+-----------------------------------
+
+VNetProd                        VNetDev                     OnPrem
++-------------+                +-------------+             +-------------+
+|             | <-- peered --> |             | <-- VPN --> |             |
+|             |                |             |    Gatewy   |             |
+|             |                |             |             |             |
++-------------+                +-------------+             +-------------+
+[x]     |                                                         ^
+Use     +---------------------------------------------------------+
+Remote Gateway
+
+The Use Remote Gateway setting allows a Peered network to use 
+a VPN Gateway of the VNet it is peering to 
+
+
+
+Azure Bastion Service requires access:
+ - Reader access on Bastion Resource
+ - Reader access on the VM
+NOTE: Azure Bastion does not require inboud rules for 22 or 3389
+
+Azure Bastion needs to be deployed PER REGION
+
+
+Service Endpoint can be enabled on subnet
+
+NSG override App Security Groups
+
+NSG applied at subnet and NIC
+
+###############################################################
+# Azure Disk
+###############################################################
+
+	                Ultra Disk 	    Premium SSD v2 	    Premium SSD 	    Standard SSD 	    Standard HDD
+Disk type 	            SSD 	       SSD 	            SSD 	            SSD 	            HDD
+Scenario 	          IO-intensive   Prod, perf         Prod,               web servers         backup 
+                    SAP HANA, DB     low latency        Performance         dev / etst          non-critical
+Max disk size 	    65 TB  	         65 TB  	        32  TB              32  TB              32  TB           
+Max throughput 	    10,000 MB/s 	 1,2 GB/s 	        900 MB/s 	        750 MB/s 	        500 MB/s
+Max IOPS 	          400,000 	     80,000 	        20,000 	            6,000 	            2,000, 3,000*
+Usable as OS Disk? 	No 	             No 	            Yes 	            Yes 	            Yes
+
+
+###############################################################
+# ARM Template / BICEP / Deployments
+###############################################################
+
+Export a template for an Azure deployment 
+  Save-AzResourceGroupDeploymentTemplate
+
+Deploying a resource via Resource Manager Template: 
+az deployment group create 
+     -- name       
+     -- resource-group       
+     -- template-file  resource.json 
+
+
+ARM Template: ensuring depedent resources are created first: 
+  - dependsOn property of VM to reference storage account
+
+BICEP deployment: 
+ - parameters are configurage values for deployment
+ - variables are computed or static values within file.  Not configurable during deployment
+
+
+Convert an ARM template to a Bicep file: az bicep decompile     (DECOM"BI"LES TO BICEP)
+
+Convert a Bicep file to an ARM template: az bicep build         (BUILDS AN ARM)
+
+To enable disk encryption automatically, Key Vault and Encryption Key nned to be configured in Deployment Template
+  - encrypts OS Disk on creation
+
+Parts of ARM template:
+- parameters
+- variables
+- resources (optional)
+- output (optional)
+
+Parts of BICEP
+- parameters
+- variables
+- resources (optional)
+- modules (optional)
+- output (optional)
+
+Parameters used to dynamically apply values to templates (i.e. different skus for envs (dev, uat, prod, etc))
+
+Parameter Validation Block: restricts parameter values to a certain set:
+
+param sku string = 'Standard_LRS' {
+    allowed: [
+        'Standard_LRS'
+        'Premium_LRS'
+    ]
+}
+
+Deployments at resource group with template file and parameters file: 
+az deployment group create --resource-group MyRG --template-file temp.json --parameters parms.json
+
+#### LAST HERE: Test 5
+
+
+
+
+
+.
