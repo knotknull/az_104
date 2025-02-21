@@ -844,5 +844,7 @@ az deployment group create --resource-group MyRG --template-file temp.json --par
 
 
 
+https://wsr.pearsonvue.com/testtaker/registration/SelectExamOptionsPage/MICROSOFT?conversationId=183714
+
 
 .
